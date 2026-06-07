@@ -16,7 +16,8 @@ body::before{content:'';position:fixed;top:-50%;left:-50%;width:200%;height:200%
 @keyframes bgShift{0%{transform:translate(0,0)}100%{transform:translate(3%,2%)}}
 header{position:relative;z-index:1;background:var(--surface);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
 .logo{display:flex;align-items:center;gap:10px}
-.logo-icon{width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,#ef4444,#f59e0b);display:flex;align-items:center;justify-content:center;font-size:.95rem;font-weight:900;color:#fff}
+.logo-icon{width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,#ef4444,#f59e0b);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:900;color:#fff;animation:logoGlow 3s ease-in-out infinite alternate}
+@keyframes logoGlow{0%{box-shadow:0 0 8px #ef444440}100%{box-shadow:0 0 20px #f59e0b60}}
 .logo-text{font-size:1.1rem;font-weight:700;color:var(--white)}
 .logo-text span{color:var(--red)}
 .status-dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;display:inline-block;margin-right:6px}
@@ -81,7 +82,14 @@ main{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:20px 24p
 .about-card .about-item{background:#ffffff03;border-radius:8px;padding:10px 14px}
 .about-card .about-item .ai-label{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
 .about-card .about-item .ai-val{font-size:.8rem;font-family:'Cascadia Code',monospace;color:var(--white)}
-footer{position:relative;z-index:1;padding:16px 24px;text-align:center;color:var(--muted);font-size:.7rem;border-top:1px solid var(--border)}
+footer{position:relative;z-index:1;padding:24px 24px;text-align:center;border-top:1px solid var(--border)}
+.footer-brand{font-size:1.1rem;font-weight:700;color:var(--white);margin-bottom:6px;animation:brandPulse 4s ease-in-out infinite}
+.footer-brand span{color:var(--red)}
+@keyframes brandPulse{0%,100%{opacity:.9}50%{opacity:1}}
+.footer-desc{font-size:.7rem;color:var(--muted);max-width:600px;margin:0 auto 10px;line-height:1.6}
+.footer-meta{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;font-size:.68rem;color:var(--muted)}
+.footer-meta a{color:var(--purple);text-decoration:none;transition:color .2s}
+.footer-meta a:hover{color:var(--red)}
 .log-footer{padding:10px 20px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;font-size:.68rem;color:var(--muted)}
 .log-footer .stat-group{display:flex;gap:16px;flex-wrap:wrap}
 .log-footer .stat-item{display:flex;align-items:center;gap:4px}
@@ -92,7 +100,7 @@ footer{position:relative;z-index:1;padding:16px 24px;text-align:center;color:var
 <body>
 <header>
 <div class="logo">
-<div class="logo-icon">⬡</div>
+<div class="logo-icon">C</div>
 <div class="logo-text">Cerbe<span>rus</span></div>
 </div>
 <div class="badges">
@@ -199,7 +207,13 @@ footer{position:relative;z-index:1;padding:16px 24px;text-align:center;color:var
 </div>
 </div>
 </main>
-<footer>Cerberus · 3-Agent Autonomous Security · Somnia Agentic L1 · Encode Agentathon 2026</footer>
+<footer>
+<div class="footer-brand">Cerbe<span>rus</span></div>
+<div class="footer-desc">Three autonomous AI agents watching the Somnia blockchain. OracleGuard detects anomalies, ThreatClassifier reasons about them, CircuitBreaker protects your contracts. All on-chain. All verifiable. Zero trust required.</div>
+<div class="footer-meta">
+<span>⏱ 60s heartbeat</span><span>🧠 Deterministic LLM</span><span>📜 Verifiable Receipts</span><span>Somnia Agentic L1</span><span>Encode Agentathon 2026</span>
+</div>
+</footer>
 <script>
 let currentTab='overview',currentFilter='all',data=null;
 function switchTab(t){currentTab=t;document.querySelectorAll('.tab').forEach(b=>{const x=b.textContent.toLowerCase();b.classList.toggle('active',x.includes(t))});document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id==='panel-'+t))}
