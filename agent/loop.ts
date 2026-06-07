@@ -46,6 +46,7 @@ interface PipelineStats {
   criticals: number;
   pauses: number;
   lastIteration: string;
+  lastPrice: string;
   events: string[];
 }
 
@@ -56,6 +57,7 @@ const stats: PipelineStats = {
   criticals: 0,
   pauses: 0,
   lastIteration: "",
+  lastPrice: "0",
   events: [],
 };
 
@@ -218,6 +220,10 @@ async function runPipeline() {
 
   // Step 1: OracleGuard
   const anomaly = await oracleGuard();
+
+  // Track last known ETH price
+  const validPrice = anomaly.prices.find(p => p.price !== null);
+  if (validPrice) stats.lastPrice = validPrice.price!.toFixed(2);
 
   // Step 2: ThreatClassifier
   if (anomaly.anomaly) {

@@ -82,6 +82,10 @@ main{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:20px 24p
 .about-card .about-item .ai-label{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
 .about-card .about-item .ai-val{font-size:.8rem;font-family:'Cascadia Code',monospace;color:var(--white)}
 footer{position:relative;z-index:1;padding:16px 24px;text-align:center;color:var(--muted);font-size:.7rem;border-top:1px solid var(--border)}
+.log-footer{padding:10px 20px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;font-size:.68rem;color:var(--muted)}
+.log-footer .stat-group{display:flex;gap:16px;flex-wrap:wrap}
+.log-footer .stat-item{display:flex;align-items:center;gap:4px}
+.log-footer .stat-val{color:var(--white);font-weight:600}
 @media(max-width:640px){.pipeline{grid-template-columns:1fr}.cards{grid-template-columns:repeat(2,1fr)}header{padding:12px 16px}main{padding:16px}.about-card .about-grid{grid-template-columns:1fr}}
 </style>
 </head>
@@ -116,6 +120,7 @@ footer{position:relative;z-index:1;padding:16px 24px;text-align:center;color:var
 <div class="ev-log">
 <div class="ev-header"><span>Recent Pipeline Events</span><span style="font-size:.7rem;color:var(--red)">Auto-refresh 2s</span></div>
 <div class="ev-body" id="miniLog"></div>
+<div class="log-footer"><div class="stat-group"><div class="stat-item">🔄 <span class="stat-val" id="sfIter">0</span> iterations</div><div class="stat-item">⚠ <span class="stat-val" id="sfAnom">0</span> anomalies</div><div class="stat-item">⚡ <span class="stat-val" id="sfCrit">0</span> critical</div></div><div><span style="color:var(--green)">●</span> Agent running</div></div>
 </div>
 </div>
 <div class="panel" id="panel-pipeline">
@@ -151,6 +156,7 @@ footer{position:relative;z-index:1;padding:16px 24px;text-align:center;color:var
 <div class="ev-log">
 <div class="ev-header"><span>Pipeline Event Log</span><span style="font-size:.7rem;color:var(--red)">Auto-refresh 2s</span></div>
 <div class="ev-body" id="pipelineLog"></div>
+<div class="log-footer"><div class="stat-group"><div class="stat-item">🔄 <span class="stat-val" id="sfIter2">0</span> iterations</div><div class="stat-item">⚠ <span class="stat-val" id="sfAnom2">0</span> anomalies</div><div class="stat-item">⚡ <span class="stat-val" id="sfCrit2">0</span> critical</div></div><div><span style="color:var(--green)">●</span> Pipeline active</div></div>
 </div>
 </div>
 <div class="panel" id="panel-events">
@@ -215,6 +221,7 @@ async function refresh(){
     el('vAnomalies',String(s.stats?.anomalies||0));
     el('vCriticals',String(s.stats?.criticals||0));
     el('vPauses',String(s.stats?.pauses||0));
+    document.getElementById('vPrice').textContent='$'+(s.stats?.lastPrice||'---');
     const rSec=Math.floor((Date.now()-new Date(s.stats?.startTime||Date.now()).getTime())/1000);
     document.getElementById('vUptime').textContent='Uptime: '+fmtUptime(Math.max(rSec,0));
     document.getElementById('liveBadge').innerHTML='<span class="status-dot"></span>AGENTS LIVE · '+fmtUptime(Math.max(rSec,0));
@@ -226,6 +233,10 @@ async function refresh(){
     document.getElementById('aboutSentinel').textContent=s.sentinel||'---';
     document.getElementById('aboutChain').textContent=s.chain||'---';
     document.getElementById('aboutRpc').textContent=s.rpcUrl||'---';
+    // Footer stats
+    ['Iter','Iter2'].forEach(id=>{const e=document.getElementById('sf'+id);e.textContent=String(s.stats?.iterations||0)});
+    ['Anom','Anom2'].forEach(id=>{const e=document.getElementById('sf'+id);e.textContent=String(s.stats?.anomalies||0)});
+    ['Crit','Crit2'].forEach(id=>{const e=document.getElementById('sf'+id);e.textContent=String(s.stats?.criticals||0)});
     renderEvents();
   }catch(e){console.error(e)}
 }
