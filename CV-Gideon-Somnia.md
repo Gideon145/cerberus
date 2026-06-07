@@ -1,4 +1,4 @@
-# Opukeme Gideon
+# Gideon
 
 **Autonomous Agent Engineer | Solidity + TypeScript + Python**
 
