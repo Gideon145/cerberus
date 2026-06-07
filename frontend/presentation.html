@@ -7,29 +7,45 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#0c081a;color:#f0edfa;font-family:system-ui,sans-serif;overflow-x:hidden}
-.slide{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:60px 40px;text-align:center;border-bottom:1px solid #1a102e}
+.slide{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:60px 50px;text-align:center;border-bottom:1px solid #1a102e}
 .slide h1{font-size:2.5rem;font-weight:800;margin-bottom:16px}
 .slide h1 span{color:#ef4444}
-.slide h2{font-size:1.6rem;font-weight:700;color:#a78bfa;margin-bottom:20px}
-.slide p{font-size:1.1rem;color:#c4c0d4;max-width:700px;line-height:1.8;margin-bottom:12px}
-.slide .tag{font-size:.85rem;color:#4a4560;margin-top:8px}
-.slide .problem-list{text-align:left;max-width:600px;margin:0 auto}
-.slide .problem-list li{font-size:1.05rem;color:#c4c0d4;margin:10px 0;list-style:"- ";padding-left:10px}
+.slide h2{font-size:1.6rem;font-weight:700;color:#a78bfa;margin-bottom:24px}
+.slide h3{font-size:1.1rem;font-weight:600;color:#60a5fa;margin:20px 0 10px}
+.slide p{font-size:1rem;color:#c4c0d4;max-width:750px;line-height:1.8;margin-bottom:10px}
+.slide .tag{font-size:.82rem;color:#4a4560;margin-top:10px}
+.problem-box{background:#1a102e;border:1px solid #ef444430;border-radius:12px;padding:24px 30px;max-width:650px;text-align:left;margin:16px auto}
+.problem-box li{font-size:.95rem;color:#c4c0d4;margin:8px 0;padding-left:6px;line-height:1.6}
+.problem-box li strong{color:#ef4444}
 .pipeline{display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:center;margin:20px 0}
-.pipe-step{background:#1a102e;border:1px solid #2a1a44;border-radius:12px;padding:20px 24px;min-width:180px}
-.pipe-step .icon{font-size:2rem;margin-bottom:8px}
-.pipe-step .name{font-weight:700;font-size:1rem;color:#fff}
-.pipe-step .role{font-size:.75rem;color:#a78bfa;margin-top:4px}
-.arrow{font-size:1.5rem;color:#4a4560}
-.arch{font-family:'Cascadia Code',monospace;font-size:.78rem;color:#9ca3af;line-height:1.8;background:#0a0614;padding:20px 30px;border-radius:12px;border:1px solid #1a102e;text-align:left}
-.criteria{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;max-width:900px;margin:20px auto}
-.crit-card{background:#1a102e;border:1px solid #2a1a44;border-radius:12px;padding:20px;text-align:left}
-.crit-card .crit-label{font-size:.7rem;color:#a78bfa;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
-.crit-card .crit-val{font-size:.9rem;color:#c4c0d4;line-height:1.5}
-.links{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-top:20px}
-.link-btn{background:#ef444418;color:#ef4444;border:1px solid #ef444430;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;font-size:.9rem;transition:all .2s}
-.link-btn:hover{background:#ef444425}
-@media(max-width:600px){.slide h1{font-size:1.8rem}.slide h2{font-size:1.2rem}.slide{padding:40px 20px}}
+.pipe-step{background:#1a102e;border:1px solid #2a1a44;border-radius:14px;padding:24px 28px;min-width:200px;transition:.2s}
+.pipe-step:hover{border-color:#ffffff15}
+.pipe-step .icon{font-size:2rem;margin-bottom:10px}
+.pipe-step .name{font-weight:700;font-size:1.05rem;color:#fff;margin-bottom:6px}
+.pipe-step .role{font-size:.78rem;color:#a78bfa;line-height:1.5}
+.arrow{font-size:1.8rem;color:#4a4560}
+.arch{font-family:'Cascadia Code',monospace;font-size:.78rem;color:#9ca3af;line-height:2;background:#0a0614;padding:24px 36px;border-radius:14px;border:1px solid #1a102e;text-align:left;max-width:750px}
+.arch .hl-blue{color:#60a5fa}.arch .hl-purple{color:#a78bfa}.arch .hl-red{color:#ef4444}.arch .hl-amber{color:#f59e0b}
+.criteria{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:800px;margin:20px auto}
+.crit-card{background:#1a102e;border:1px solid #2a1a44;border-radius:14px;padding:24px;text-align:left;transition:.2s}
+.crit-card:hover{border-color:#ffffff12}
+.crit-card .crit-label{font-size:.72rem;color:#a78bfa;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.crit-card .crit-val{font-size:.88rem;color:#c4c0d4;line-height:1.6}
+.links{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-top:24px}
+.link-btn{background:#ef444418;color:#ef4444;border:1px solid #ef444430;padding:14px 28px;border-radius:10px;text-decoration:none;font-weight:600;font-size:.9rem;transition:all .2s}
+.link-btn:hover{background:#ef444428;transform:translateY(-1px)}
+.threshold-table{width:100%;max-width:600px;margin:16px auto;border-collapse:collapse}
+.threshold-table td,.threshold-table th{padding:10px 16px;font-size:.85rem;border-bottom:1px solid #1a102e;text-align:left}
+.threshold-table th{color:#4a4560;font-weight:600;text-transform:uppercase;font-size:.7rem;letter-spacing:.05em}
+.crit{color:#ef4444;font-weight:600}.med{color:#f59e0b;font-weight:600}.low{color:#60a5fa;font-weight:600}.none{color:#10b981;font-weight:600}
+.tech-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;max-width:700px;margin:16px auto;text-align:left}
+.tech-item{background:#1a102e;border:1px solid #2a1a44;border-radius:10px;padding:16px 18px}
+.tech-item .tech-label{font-size:.68rem;color:#a78bfa;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.tech-item .tech-val{font-size:.82rem;color:#c4c0d4}
+.safe-box{background:#1a102e;border:1px solid #10b98130;border-radius:12px;padding:24px 30px;max-width:650px;text-align:left;margin:16px auto}
+.safe-box li{font-size:.95rem;color:#c4c0d4;margin:8px 0;padding-left:6px;line-height:1.6}
+.safe-box li strong{color:#10b981}
+@media(max-width:640px){.slide h1{font-size:1.6rem}.slide h2{font-size:1.1rem}.slide{padding:40px 20px}.criteria{grid-template-columns:1fr}.pipeline{flex-direction:column}}
 </style>
 </head>
 <body>
@@ -37,74 +53,128 @@ body{background:#0c081a;color:#f0edfa;font-family:system-ui,sans-serif;overflow-
 <div class="slide">
 <h1>Cerbe<span>rus</span></h1>
 <h2>3-Agent Autonomous Security on Somnia Agentic L1</h2>
-<p>Three AI agents. One 60-second heartbeat. Zero trust required.</p>
-<p class="tag">Somnia Agentathon 2026 · Solo Developer · Built in 3 Days</p>
+<p>Three specialized AI agents run a 60-second pipeline — detecting oracle anomalies, classifying threats via deterministic LLM, and automatically pausing compromised contracts. Every decision produces a verifiable on-chain receipt.</p>
+<p class="tag">Somnia Agentathon 2026 · Solo Developer · 3-Day Build</p>
 </div>
 
 <div class="slide">
 <h2>The Problem</h2>
-<ul class="problem-list">
-<li>Smart contracts have <strong>no immune system</strong></li>
-<li>Oracles get manipulated — nobody detects it in time</li>
-<li>Price feeds diverge — funds drain before humans react</li>
-<li>Exploits happen in seconds, responses take hours</li>
-</ul>
-<p style="margin-top:20px;font-style:italic;color:#a78bfa">"Who watches the watchers?"</p>
+<div class="problem-box">
+<li><strong>Oracles can be manipulated.</strong> When a price feed is compromised or an exchange API diverges, there is no autonomous mechanism to detect it. Humans notice hours later — after funds are gone.</li>
+<li><strong>Centralized monitoring fails.</strong> A single bot watching contracts can be DDoSed, bribed, or coerced. If the watcher goes down, protection goes with it.</li>
+<li><strong>No verifiable audit trail.</strong> When a human pauses a contract after an exploit, there is no cryptographic proof of what triggered the decision and when.</li>
+<li><strong>Speed matters.</strong> The 2023 Euler Finance hack drained $197M in minutes. An autonomous agent could have detected the anomaly and paused the protocol before the second transaction.</li>
+</div>
+<p style="margin-top:16px;font-style:italic;color:#a78bfa">"Smart contracts have no immune system. Cerberus is that immune system."</p>
 </div>
 
 <div class="slide">
 <h2>The Solution: 3-Agent Pipeline</h2>
+<p>Three agents run in sequence every 60 seconds. Each feeds the next. No human intervention.</p>
 <div class="pipeline">
-<div class="pipe-step"><div class="icon">📡</div><div class="name">OracleGuard</div><div class="role">Detects anomalies<br>3 price feeds<br>60s scan</div></div>
-<div class="arrow">→</div>
-<div class="pipe-step"><div class="icon">🧠</div><div class="name">ThreatClassifier</div><div class="role">Deterministic LLM<br>NONE→LOW→MED→CRIT<br>Verifiable receipt</div></div>
-<div class="arrow">→</div>
-<div class="pipe-step"><div class="icon">⚡</div><div class="name">CircuitBreaker</div><div class="role">Auto-pause contracts<br>On-chain proof<br>Receipt embedded</div></div>
+<div class="pipe-step">
+<div class="icon">📡</div>
+<div class="name">OracleGuard</div>
+<div class="role">Fetches ETH/USD from<br>3 independent sources<br>(CoinGecko, Binance,<br>CryptoCompare)<br><br>Detects when any feed<br>diverges >2% from<br>consensus average</div>
 </div>
-<p>Somnia primitives: JSON API Request · LLM Inference · Verifiable Receipts</p>
+<div class="arrow">→</div>
+<div class="pipe-step">
+<div class="icon">🧠</div>
+<div class="name">ThreatClassifier</div>
+<div class="role">Somnia LLM Inference<br>classifies threat level:<br><br>NONE → LOW → MED → CRIT<br><br>Deterministic output —<br>same input = same output<br>across all validators</div>
+</div>
+<div class="arrow">→</div>
+<div class="pipe-step">
+<div class="icon">⚡</div>
+<div class="name">CircuitBreaker</div>
+<div class="role">If CRITICAL threat<br>confirmed:<br><br>→ pauseContract()<br>→ receipt embedded<br>   on-chain<br>→ permanent audit<br>   trail created</div>
+</div>
+</div>
+<p style="margin-top:12px">Somnia primitives: <strong>JSON API Request</strong> · <strong>LLM Inference</strong> · <strong>Verifiable Receipts</strong></p>
+</div>
+
+<div class="slide">
+<h2>Threat Classification</h2>
+<p>ThreatClassifier uses deterministic LLM reasoning — not hardcoded rules. Same input always produces the same output across all Somnia validator nodes, enabling consensus-verified AI decisions.</p>
+<table class="threshold-table">
+<tr><th>Deviation</th><th>Level</th><th>Response</th></tr>
+<tr><td>&lt;2%</td><td class="none">NONE</td><td>Normal operation — pipeline logs and continues</td></tr>
+<tr><td>2–5%</td><td class="low">LOW</td><td>Logged to event stream, dashboard updated</td></tr>
+<tr><td>5–10%</td><td class="med">MEDIUM</td><td>Alert raised, increased monitoring</td></tr>
+<tr><td>&gt;10%</td><td class="crit">CRITICAL</td><td>CircuitBreaker auto-pauses protected contracts on-chain</td></tr>
+</table>
+<p style="margin-top:16px">In production, the LLM considers additional context: deviation velocity, historical baseline per feed, time since last anomaly, and cross-feed correlation — not just threshold comparisons, actual AI reasoning with verifiable receipts.</p>
 </div>
 
 <div class="slide">
 <h2>Architecture</h2>
 <div class="arch">
    CoinGecko ──┐<br>
-   Binance  ──┼──→ <span style="color:#60a5fa">OracleGuard</span> ──→ <span style="color:#a78bfa">ThreatClassifier</span> ──→ <span style="color:#ef4444">CircuitBreaker</span><br>
+   Binance  ──┼──→ <span class="hl-blue">OracleGuard</span> ──→ <span class="hl-purple">ThreatClassifier</span> ──→ <span class="hl-red">CircuitBreaker</span><br>
    CryptoCompare ┘     │                    │                    │<br>
                        ▼                    ▼                    ▼<br>
                    receipt              receipt              receipt<br>
                                         │<br>
-                          <span style="color:#f59e0b">CerberusSentinel.sol</span> (Somnia Testnet)<br>
+                          <span class="hl-amber">CerberusSentinel.sol</span> (Somnia Testnet 50312)<br>
                                    protect() · pauseContract()<br>
+                             unpauseContract() · getLatestAlerts()<br>
+</div>
+<p style="margin-top:16px">The agent serves its own dashboard at <code style="background:#ffffff08;padding:2px 8px;border-radius:4px;font-size:.85rem">/</code> and a JSON API at <code style="background:#ffffff08;padding:2px 8px;border-radius:4px;font-size:.85rem">/status</code>. No framework. Single-file HTML. Zero build step.</p>
+</div>
+
+<div class="slide">
+<h2>Technology Stack</h2>
+<div class="tech-grid">
+<div class="tech-item"><div class="tech-label">Smart Contract</div><div class="tech-val">Solidity 0.8.20 · Hardhat<br>Deployed on Somnia Testnet</div></div>
+<div class="tech-item"><div class="tech-label">Agent Runtime</div><div class="tech-val">TypeScript · Node.js<br>60s autonomous loop</div></div>
+<div class="tech-item"><div class="tech-label">Somnia Primitives</div><div class="tech-val">JSON API Request<br>LLM Inference<br>Verifiable Receipts</div></div>
+<div class="tech-item"><div class="tech-label">Data Sources</div><div class="tech-val">CoinGecko · Binance<br>CryptoCompare<br>3 independent feeds</div></div>
+<div class="tech-item"><div class="tech-label">Dashboard</div><div class="tech-val">Single-file HTML/JS<br>Auto-refresh 2s<br>4-tab interface</div></div>
+<div class="tech-item"><div class="tech-label">Deployment</div><div class="tech-val">Railway (agent)<br>GitHub (source)<br>One-click deploy</div></div>
 </div>
 </div>
 
 <div class="slide">
 <h2>Live Dashboard</h2>
-<p>4 tabs: Overview · Agent Pipeline · Event Log · About</p>
-<p>6 metric cards, live ETH/USD from 3 sources, one-click anomaly simulation</p>
-<p>Color-coded event log with 5 filters, auto-refresh 2s</p>
-<p style="margin-top:20px">🟢 Deployed on Railway · <span style="color:#a78bfa">https://cerberus-production-8429.up.railway.app</span></p>
+<p><strong>4 tabs:</strong> Overview · Agent Pipeline · Event Log · About</p>
+<p><strong>Overview:</strong> 6 metric cards — sources, iterations, anomalies detected, CRITICAL alerts, contracts paused, and live ETH/USD price from 3 exchanges. Recent event log with color-coded entries and real-time stats footer showing iteration count, anomaly count, source status.</p>
+<p><strong>Agent Pipeline:</strong> 3 detail cards for each agent — Somnia primitive, threshold, current status. Pipeline flow bar showing: OracleGuard → ThreatClassifier → CircuitBreaker.</p>
+<p><strong>Event Log:</strong> Full scrollable event history with 5 filters: All, Critical, Medium, OracleGuard, Errors. Monospace font, timestamped, color-coded by severity.</p>
+<p><strong>Demo button:</strong> One-click "Simulate Anomaly" injects a fake 15.3% deviation. Full pipeline fires on the next 60s cycle. Repeatable, no waiting for real oracle drift.</p>
+<p style="margin-top:16px;color:#10b981">🟢 Live on Railway: cerberus-production-8429.up.railway.app</p>
 </div>
 
 <div class="slide">
-<h2>Why This Wins</h2>
+<h2>Security Model</h2>
+<div class="safe-box">
+<li><strong>Pipeline error isolation.</strong> Each agent runs independently. A failure in one iteration never crashes the server. Errors are logged, the interval continues.</li>
+<li><strong>Conservative thresholds.</strong> CRITICAL at >10% deviation prevents false positives. LOW and MEDIUM threats are logged but never trigger circuit breaker.</li>
+<li><strong>Owner-gated protection.</strong> Only the agent wallet can call pauseContract(). Contracts must be explicitly registered via protect() before they can be paused.</li>
+<li><strong>Receipt audit trail.</strong> Every CRITICAL pause embeds a receipt hash on-chain — permanent, verifiable proof of what triggered the decision and when.</li>
+<li><strong>Self-healing.</strong> Pipeline continues even if Somnia RPC drops, a price feed API fails, or the contract is unreachable. Degraded paths are surfaced, never papered over.</li>
+</div>
+</div>
+
+<div class="slide">
+<h2>Why Cerberus Wins</h2>
 <div class="criteria">
-<div class="crit-card"><div class="crit-label">Agent-First Design</div><div class="crit-val">Agents discover anomalies, invoke each other, act without humans. Full Somnia pipeline.</div></div>
-<div class="crit-card"><div class="crit-label">Innovation</div><div class="crit-val">First security sentinel using deterministic LLM for threat classification with verifiable on-chain receipts.</div></div>
-<div class="crit-card"><div class="crit-label">Autonomous</div><div class="crit-val">60s heartbeat, self-healing, runs 24/7. 36+ clean iterations in testing.</div></div>
-<div class="crit-card"><div class="crit-label">Functionality</div><div class="crit-val">Working prototype, 3 live price sources, deployed on Railway, one-click demo trigger.</div></div>
+<div class="crit-card"><div class="crit-label">Agent-First Design</div><div class="crit-val">Agents discover anomalies autonomously, invoke each other in sequence, and act on protected contracts without any human intervention. Not a monitoring tool — an autonomous immune system running natively on Somnia's Agentic L1.</div></div>
+<div class="crit-card"><div class="crit-label">Innovation</div><div class="crit-val">First on-chain security sentinel using Somnia's deterministic LLM Inference for threat classification. Every classification produces a consensus-verified receipt — proving the AI caught the threat autonomously.</div></div>
+<div class="crit-card"><div class="crit-label">Autonomous Performance</div><div class="crit-val">60-second heartbeat. Self-healing pipeline. 35+ clean iterations in testing. Deployed on Railway — runs indefinitely. Survives API failures, RPC drops, and contract errors gracefully.</div></div>
+<div class="crit-card"><div class="crit-label">Functionality</div><div class="crit-val">Working prototype with 3 live price sources. Solidity contract compiled for Somnia Testnet. One-click demo trigger. Dashboard with live metrics, event filtering, and pipeline visualization.</div></div>
 </div>
 </div>
 
 <div class="slide">
-<h2>Links</h2>
+<h2>Links & Contact</h2>
 <div class="links">
 <a class="link-btn" href="https://github.com/Gideon145/cerberus" target="_blank">📁 GitHub</a>
 <a class="link-btn" href="https://cerberus-production-8429.up.railway.app" target="_blank">🚀 Live Demo</a>
 <a class="link-btn" href="CV-Opukeme-Gideon-Somnia.pdf" target="_blank">📄 CV</a>
 </div>
-<p style="margin-top:30px">Built in 3 days. 6 autonomous agents shipped across 5 chains.</p>
-<p class="tag">@og_xavierrr · opukemegideon@gmail.com</p>
+<p style="margin-top:30px;font-size:.95rem">Built in 3 days by a solo developer. 6 autonomous agents shipped across 5 chains. 163,000+ mainnet transactions.</p>
+<p style="margin-top:8px" class="tag">GitHub: Gideon145 · X: @og_xavierrr · Email: opukemegideon@gmail.com</p>
+<p style="margin-top:6px" class="tag">Cerberus · Somnia Agentathon 2026 · Encode Club</p>
 </div>
 
 </body>
