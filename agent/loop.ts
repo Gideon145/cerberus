@@ -241,7 +241,7 @@ import * as fs from "fs";
 import * as path from "path";
 
 function startServer() {
-  const dashboardPath = path.join(__dirname, "..", "frontend", "index.html");
+  const dashboardPath = path.join(process.cwd(), "frontend", "index.html");
 
   http
     .createServer((req, res) => {
