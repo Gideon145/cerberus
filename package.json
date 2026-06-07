@@ -9,12 +9,13 @@
     "dev": "npx tsx agent/loop.ts"
   },
   "dependencies": {
-    "ethers": "^6.16.0",
-    "dotenv": "^16.4.0"
+    "dotenv": "^16.4.0",
+    "ethers": "^6.16.0"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^4.0.0",
     "hardhat": "^2.22.0",
+    "md-to-pdf": "^5.2.5",
     "tsx": "^4.19.0",
     "typescript": "^5.4.0"
   }
