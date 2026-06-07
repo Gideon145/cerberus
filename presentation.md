@@ -34,17 +34,16 @@ Every decision = verifiable receipt on Somnia Agentic L1.
 
 ## Architecture
 
-```mermaid
-graph LR
-    A[CoinGecko] --> OG
-    B[Binance] --> OG
-    C[CryptoCompare] --> OG
-    OG[OracleGuard] -->|anomaly| TC[ThreatClassifier]
-    TC -->|CRITICAL| CB[CircuitBreaker]
-    CB -->|pause| SC[CerberusSentinel.sol]
-    OG -->|receipt| SL[Somnia L1]
-    TC -->|receipt| SL
-    CB -->|receipt| SL
+```
+   CoinGecko ──┐
+   Binance  ──┼──→ OracleGuard ──→ ThreatClassifier ──→ CircuitBreaker
+   CryptoCompare ┘     │                    │                    │
+                       ▼                    ▼                    ▼
+                   verifiable           verifiable           verifiable
+                    receipt              receipt              receipt
+                                        │
+                          CerberusSentinel.sol (Somnia Testnet)
+                                   protect() · pauseContract()
 ```
 
 **Somnia primitives used:** JSON API Request + LLM Inference + Verifiable Receipts
