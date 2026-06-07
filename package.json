@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "3-agent autonomous security network on Somnia Agentic L1",
   "scripts": {
+    "start": "npx tsx agent/loop.ts",
     "compile": "npx hardhat compile",
     "deploy": "npx hardhat run scripts/deploy.ts --network somniaTestnet",
     "agent": "npx tsx agent/loop.ts",
