@@ -99,6 +99,22 @@ interface OracleResult {
 }
 
 async function oracleGuard(): Promise<OracleResult> {
+  // Demo mode: return hardcoded anomaly
+  if (simulateAnomaly) {
+    simulateAnomaly = false;
+    log("OracleGuard", "⚠ DEMO MODE — injecting simulated 15.3% deviation");
+    return {
+      anomaly: true,
+      source: "price-feed",
+      detail: "15.3% deviation across feeds (SIMULATED)",
+      prices: [
+        { name: "CoinGecko", price: 1800 },
+        { name: "Binance", price: 1520 },
+        { name: "CryptoCompare", price: 1850 },
+      ],
+    };
+  }
+
   const prices: { name: string; price: number | null }[] = [];
 
   for (const feed of PRICE_FEEDS) {
@@ -241,16 +257,28 @@ async function runPipeline() {
   }
 }
 
-// ── HTTP Server (status + dashboard) ──────────────────────────────────────────
+// ── HTTP Server (status + dashboard + simulate) ───────────────────────────────
 
 import * as fs from "fs";
 import * as path from "path";
+
+// Demo mode: forces OracleGuard to report a 15% anomaly on next iteration
+let simulateAnomaly = false;
 
 function startServer() {
   const dashboardPath = path.join(process.cwd(), "frontend", "index.html");
 
   http
     .createServer((req, res) => {
+      // Simulate anomaly for demo
+      if (req.url === "/simulate-anomaly") {
+        simulateAnomaly = true;
+        res.writeHead(200, { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" });
+        res.end(JSON.stringify({ ok: true, msg: "Anomaly will trigger on next iteration" }));
+        log("DEMO", "Simulated anomaly triggered — next pipeline iteration will fire");
+        return;
+      }
+
       // Dashboard
       if (req.url === "/" || req.url === "/dashboard") {
         try {
