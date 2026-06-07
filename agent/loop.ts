@@ -16,7 +16,7 @@ dotenv.config();
 
 // ── Config ────────────────────────────────────────────────────────────────────
 
-const RPC_URL = (process.env.SOMNIA_RPC || "https://testnet.somnia.network/rpc").trim();
+const RPC_URL = (process.env.SOMNIA_RPC || "https://api.infra.testnet.somnia.network").trim();
 const PRIVATE_KEY = (process.env.AGENT_PRIVATE_KEY || "").trim();
 const SENTINEL_ADDRESS = (process.env.SENTINEL_ADDRESS || "").trim();
 const STATUS_PORT = parseInt(process.env.STATUS_PORT || "3001");

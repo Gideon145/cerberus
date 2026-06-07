@@ -100,7 +100,7 @@ function fmtTime(ts){if(!ts)return'';const d=new Date(ts);const h=d.getHours().t
 
 async function refresh(){
   try{
-    const res=await fetch('http://localhost:3001');
+    const res=await fetch('/status');
     const d=await res.json();
     if(!d.ok)return;
 
