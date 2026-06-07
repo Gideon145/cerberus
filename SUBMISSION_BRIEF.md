@@ -6,6 +6,22 @@
 
 ---
 
+## What Is Cerberus?
+
+Cerberus is an autonomous security network built on Somnia's Agentic L1. Three specialized AI agents — OracleGuard, ThreatClassifier, and CircuitBreaker — run a continuous 60-second pipeline that detects oracle anomalies, classifies threats via deterministic AI, and automatically pauses compromised contracts. Every decision produces a verifiable on-chain receipt.
+
+It is not a monitoring tool or a static scanner. It is an immune system for smart contracts — always watching, always reasoning, always ready to act.
+
+---
+
+## The Problem It Solves
+
+Smart contracts have no autonomous defense mechanism. When a Chainlink oracle is manipulated, a price feed diverges from consensus, or an exploit pattern emerges, no one detects it in real time. By the time a human notices and responds — funds are already gone. The 2023 Euler Finance hack drained $197 million in minutes.
+
+Existing solutions are either reactive (post-exploit forensic analysis), centralized (a single monitoring bot that can be DDoSed or bribed), or rule-based (hardcoded thresholds that miss novel attacks). Cerberus replaces all three with autonomous AI agents that watch, reason, and protect — natively on Somnia.
+
+---
+
 ## The Pipeline
 
 ```
@@ -51,6 +67,14 @@ OracleGuard fetches ETH/USD from 3 independent sources (CoinGecko, Binance, Cryp
 **Innovation:** First on-chain security sentinel using deterministic LLM for threat classification. Not rule-based — AI reasoning with verifiable cryptographic receipts.
 
 **Autonomous Performance:** 60-second self-healing heartbeat. Error-isolated pipeline. Survives API failures and RPC drops. Runs indefinitely.
+
+---
+
+## What Makes It Different
+
+Most security tools are reactive (scan after deployment) or rule-based (hardcoded thresholds). Cerberus uses deterministic AI to reason about threats in real time, with every decision producing a verifiable receipt proving the AI caught it autonomously. It is not a scanner — it is an immune system.
+
+Traditional monitoring relies on a single bot that can be DDoSed, bribed, or coerced. Cerberus distributes detection, classification, and response across three specialized agents — each running independently, each with verifiable outputs. No single point of failure. No single point of trust.
 
 ---
 
