@@ -238,8 +238,8 @@ async function runPipeline() {
   const anomaly = await oracleGuard();
 
   // Track last known ETH price
-  const validPrice = anomaly.prices.find(p => p.price !== null);
-  if (validPrice) stats.lastPrice = validPrice.price!.toFixed(2);
+  const validPrice = anomaly.prices?.find(p => p.price !== null);
+  if (validPrice?.price != null) stats.lastPrice = validPrice.price.toFixed(2);
 
   // Step 2: ThreatClassifier
   if (anomaly.anomaly) {

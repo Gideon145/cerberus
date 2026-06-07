@@ -1,0 +1,65 @@
+# Cerberus Demo Script
+
+## VIDEO WALKTHROUGH (follow this exactly)
+
+### 0:00-0:30 — THE PROBLEM
+- Screen: Show the terminal where agent is already running
+- Show the 3-agent ASCII banner, wallet address, contract address
+- Keep it on screen while voiceover talks about the problem
+
+### 0:30-0:55 — THE SOLUTION + LIVE DASHBOARD
+- Switch to browser at http://localhost:3001
+- Show the Overview tab
+- Point to: ETH/USD card showing live price from 3 sources
+- Point to: 3 sources listed (CoinGecko + Binance + CryptoCompare)
+- Scroll down to show the event log with live price entries
+
+### 0:55-1:45 — THE DEMO (SIMULATE ANOMALY)
+- Click the red "⚡ Simulate Anomaly" button
+- Text appears: "✓ Triggered — next iteration fires"
+- Switch to terminal — show the agent detecting it:
+  "[OracleGuard] ⚠ DEMO MODE — injecting simulated 15.3% deviation"
+  "[ThreatClassifier] CRITICAL — Deviation 15.3%..."
+  "[CircuitBreaker] ⚡ PAUSED 0x87E3... | tx: 0x..."
+- Switch BACK to browser
+- Click "Event Log" tab
+- Click "Critical" filter button
+- Show the CRITICAL event with receipt hash
+
+### 1:45-2:20 — AGENT PIPELINE TAB
+- Click "Agent Pipeline" tab
+- Show the 3 agent cards side by side
+- Point to: OracleGuard (JSON API Request), ThreatClassifier (LLM Inference), CircuitBreaker
+- Show the pipeline flow bar: OracleGuard → ThreatClassifier → CircuitBreaker
+- Show the status: "● Nominal"
+
+### 2:20-2:45 — ABOUT + WRAP UP
+- Click "About" tab
+- Show: Agent Wallet, Sentinel Contract address, Chain: Somnia Testnet
+- Show the footer with project description
+- End on the Overview tab with the pulsing green dot showing AGENTS LIVE
+
+### 2:45-2:55 — LINKS
+- Show the GitHub README on screen
+- Point to: live demo link, GitHub link
+- End
+
+---
+
+## VOICEOVER SCRIPT (for Microsoft TTS)
+
+Smart contracts have no immune system. When an oracle is manipulated or a price feed diverges, no one notices until funds are gone. Cerberus fixes this.
+
+Three autonomous AI agents run a sixty-second pipeline on Somnia's Agentic L1. OracleGuard fetches ETH prices from three independent sources — CoinGecko, Binance, and CryptoCompare. All three feeds are live right now, updating every sixty seconds.
+
+When OracleGuard detects an anomaly, ThreatClassifier uses Somnia's deterministic LLM Inference to classify the threat. This is not a rules engine — it is actual AI reasoning with consensus-verified outputs. Every classification produces a verifiable on-chain receipt.
+
+Let me show you. I will click Simulate Anomaly to inject a fake fifteen percent price deviation. The full pipeline will fire on the next cycle.
+
+Watch the terminal. OracleGuard detects the deviation. ThreatClassifier classifies it as CRITICAL. CircuitBreaker automatically pauses the protected contract on-chain. The transaction hash and receipt are embedded permanently — verifiable proof that the AI caught this autonomously.
+
+The dashboard has four tabs. Overview shows live metrics. The Agent Pipeline tab shows all three agents with their Somnia primitives. The Event Log has color-coded filters — you can filter by Critical to see every autonomous pause with its receipt hash.
+
+This is not a scanner. It is not a monitoring tool. It is an immune system for smart contracts — running natively on Somnia, proving every decision on-chain.
+
+Cerberus. Three agents. One heartbeat. Zero trust required.
