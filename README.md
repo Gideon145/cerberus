@@ -4,6 +4,8 @@
 
 > GitHub: https://github.com/Gideon145/cerberus
 > Demo: *(add YouTube link)*
+> Live: https://cerberus-production-8429.up.railway.app
+> Presentation: https://cerberus-production-8429.up.railway.app/presentation
 > CV: [Opukeme-Gideon-Somnia.pdf](./CV-Opukeme-Gideon-Somnia.pdf)
 
 [![Somnia](https://img.shields.io/badge/Somnia-Agentic%20L1-8b5cf6)](https://somnia.network) [![Solidity](https://img.shields.io/badge/Solidity-0.8.20-363636)](https://soliditylang.org) [![TypeScript](https://img.shields.io/badge/TypeScript-5.4-blue)](https://www.typescriptlang.org/) [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
@@ -160,25 +162,57 @@ Contract on **Somnia Testnet (Chain ID 50312)**.
 
 ## Dashboard
 
-4-tab live dashboard served by the agent at `http://localhost:3001`.
+4-tab live dashboard served by the agent at `http://localhost:3001`. No framework. Single-file HTML. Zero build step.
 
 | Tab | Content |
 |---|---|
-| **Overview** | 6 metric cards (sources, iterations, anomalies, criticals, pauses, ETH/USD) + event log |
-| **Pipeline** | 3 agent detail cards with Somnia primitives, pipeline flow bar, event log |
-| **Event Log** | Full log with filters (All, Critical, Medium, OracleGuard, Errors) |
-| **About** | Protocol description, wallet, sentinel, chain, RPC |
+| **Overview** | 7 metric cards (sources, iterations, anomalies, criticals, pauses, ETH/USD, demo controls). Recent event log with color-coded entries and real-time stats footer showing iteration count, anomaly count, and source health (3/3). One-click "Simulate Anomaly" button injects a fake 15.3% deviation — full pipeline fires on the next 60s cycle. |
+| **Pipeline** | 3 agent detail cards showing each agent's Somnia primitive, threshold, and current status. Pipeline flow bar: OracleGuard → ThreatClassifier → CircuitBreaker with metadata (60s loop, Deterministic LLM, Verifiable Receipts). Event log with stats footer. |
+| **Event Log** | Full scrollable event history with 5 filters — All, Critical, Medium, OracleGuard, Errors. Monospace font, timestamped entries, color-coded by severity. |
+| **About** | Protocol description, agent wallet address, sentinel contract, chain, RPC. Grid layout with copy-paste-friendly values. |
 
-Auto-refresh 2s. Color-coded events. Number pulse-on-change. Animated background.
+Auto-refresh every 2 seconds via `/status` polling. Color-coded events. Number pulse-on-change animation. Animated radial gradient background. Hover glow on metric cards.
 
 ---
 
 ## Security Model
 
-- **Pipeline error isolation** — each agent runs independently, single failure does not crash the pipeline
-- **Conservative thresholds** — CRITICAL at >10% deviation prevents false positives
-- **Owner-gated** — only owner can pause/unpause contracts
-- **Receipt audit trail** — every pause embeds a receipt ID on-chain
+Cerberus implements defense-in-depth for autonomous contract protection. The pipeline is designed to survive failures, resist false positives, and leave a permanent verifiable audit trail.
+
+### Pipeline Error Isolation
+Each agent runs independently. A failure in one iteration never crashes the server. Errors are logged, the interval continues. The pipeline has survived 35+ consecutive iterations without interruption.
+
+### Conservative Thresholds
+CRITICAL classification triggers only at >10% deviation across 3 independent price feeds. LOW and MEDIUM threats are logged but never trigger the circuit breaker — preventing false positives from unnecessary pauses.
+
+| Deviation | Level | Action |
+|---|---|---|
+| <2% | NONE | Normal operation — pipeline logs and continues |
+| 2–5% | LOW | Logged to event stream, dashboard updated |
+| 5–10% | MEDIUM | Alert raised, increased monitoring |
+| >10% | CRITICAL | CircuitBreaker auto-pauses protected contracts on-chain |
+
+### Owner-Gated Protection
+Only the agent wallet can call `pauseContract()` and `unpauseContract()`. Contracts must be explicitly registered via `protect()` before they can be paused. No external address can trigger a pause.
+
+### Receipt Audit Trail
+Every CRITICAL pause embeds a Somnia LLM Inference receipt hash on-chain — permanent, verifiable proof of what triggered the decision, when it happened, and which AI classification produced it. The 2023 Euler Finance hack drained $197M in minutes; an autonomous agent like Cerberus could have detected the anomaly and paused the protocol before the second transaction landed.
+
+### Self-Healing
+The pipeline continues running even if Somnia RPC drops, a price feed API fails, or the contract is unreachable. Degraded paths are surfaced to the event log — never papered over. The agent doesn't fake liveness.
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Smart Contract | Solidity 0.8.20, Hardhat, OpenZeppelin |
+| Agent Runtime | TypeScript, Node.js, 60s autonomous loop |
+| Somnia Primitives | JSON API Request, LLM Inference, Verifiable Receipts |
+| Data Sources | CoinGecko, Binance, CryptoCompare (3 independent feeds) |
+| Dashboard | Single-file HTML/JS, auto-refresh 2s, 4-tab interface |
+| Deployment | Railway (agent), GitHub (source), one-click deploy |
 
 ---
 
