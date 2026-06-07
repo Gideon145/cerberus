@@ -120,7 +120,15 @@ footer{position:relative;z-index:1;padding:16px 24px;text-align:center;color:var
 <div class="ev-log">
 <div class="ev-header"><span>Recent Pipeline Events</span><span style="font-size:.7rem;color:var(--red)">Auto-refresh 2s</span></div>
 <div class="ev-body" id="miniLog"></div>
-<div class="log-footer"><div class="stat-group"><div class="stat-item">🔄 <span class="stat-val" id="sfIter">0</span> iterations</div><div class="stat-item">⚠ <span class="stat-val" id="sfAnom">0</span> anomalies</div><div class="stat-item">⚡ <span class="stat-val" id="sfCrit">0</span> critical</div></div><div><span style="color:var(--green)">●</span> Agent running</div></div>
+<div class="log-footer">
+<div class="stat-group">
+<div class="stat-item">🔄 <span class="stat-val" id="sfIter">0</span> iterations</div>
+<div class="stat-item">⚠ <span class="stat-val" id="sfAnom">0</span> anomalies</div>
+<div class="stat-item">⚡ <span class="stat-val" id="sfCrit">0</span> critical</div>
+<div class="stat-item">📡 <span class="stat-val" id="sfSources">3/3</span> sources</div>
+</div>
+<div><span style="color:var(--green)">●</span> Pipeline nominal — 60s heartbeat</div>
+</div>
 </div>
 </div>
 <div class="panel" id="panel-pipeline">
@@ -153,10 +161,13 @@ footer{position:relative;z-index:1;padding:16px 24px;text-align:center;color:var
 </div>
 </div>
 </div>
+<div style="display:flex;justify-content:center;align-items:center;gap:12px;margin:-8px 0 20px 0;font-size:.75rem;color:var(--muted);flex-wrap:wrap;padding:12px 20px;background:var(--surface);border:1px solid var(--border);border-radius:10px">
+<span>📡 OracleGuard</span><span style="color:#4a4560">→</span><span>🧠 ThreatClassifier</span><span style="color:#4a4560">→</span><span>⚡ CircuitBreaker</span><span style="margin-left:10px;color:#4a4560">|</span><span>⏱ 60s loop</span><span style="color:#4a4560">|</span><span>🧠 Determ. LLM</span><span style="color:#4a4560">|</span><span>📜 Verifiable Receipts</span><span style="color:#4a4560">|</span><span id="pipeStatus" style="color:var(--green)">● Nominal</span>
+</div>
 <div class="ev-log">
 <div class="ev-header"><span>Pipeline Event Log</span><span style="font-size:.7rem;color:var(--red)">Auto-refresh 2s</span></div>
 <div class="ev-body" id="pipelineLog"></div>
-<div class="log-footer"><div class="stat-group"><div class="stat-item">🔄 <span class="stat-val" id="sfIter2">0</span> iterations</div><div class="stat-item">⚠ <span class="stat-val" id="sfAnom2">0</span> anomalies</div><div class="stat-item">⚡ <span class="stat-val" id="sfCrit2">0</span> critical</div></div><div><span style="color:var(--green)">●</span> Pipeline active</div></div>
+<div class="log-footer"><div class="stat-group"><div class="stat-item">🔄 <span class="stat-val" id="sfIter2">0</span> iterations</div><div class="stat-item">⚠ <span class="stat-val" id="sfAnom2">0</span> anomalies</div><div class="stat-item">⚡ <span class="stat-val" id="sfCrit2">0</span> critical</div><div class="stat-item">📡 <span class="stat-val" id="sfSources2">3/3</span> sources</div></div><div><span style="color:var(--green)">●</span> Pipeline active</div></div>
 </div>
 </div>
 <div class="panel" id="panel-events">
