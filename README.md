@@ -156,7 +156,7 @@ Contract on **Somnia Testnet (Chain ID 50312)**.
 |---|---|
 | RPC | `https://api.infra.testnet.somnia.network` |
 | Chain ID | 50312 |
-| Sentinel | *(pending STT from faucet)* |
+| Sentinel | `0x87E3D9fcfA4eff229A65d045A7C741E49b581187` |
 
 ---
 
