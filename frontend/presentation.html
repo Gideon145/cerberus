@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cerberus — Presentation</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0c081a;color:#f0edfa;font-family:system-ui,sans-serif;overflow-x:hidden}
+.slide{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:60px 40px;text-align:center;border-bottom:1px solid #1a102e}
+.slide h1{font-size:2.5rem;font-weight:800;margin-bottom:16px}
+.slide h1 span{color:#ef4444}
+.slide h2{font-size:1.6rem;font-weight:700;color:#a78bfa;margin-bottom:20px}
+.slide p{font-size:1.1rem;color:#c4c0d4;max-width:700px;line-height:1.8;margin-bottom:12px}
+.slide .tag{font-size:.85rem;color:#4a4560;margin-top:8px}
+.slide .problem-list{text-align:left;max-width:600px;margin:0 auto}
+.slide .problem-list li{font-size:1.05rem;color:#c4c0d4;margin:10px 0;list-style:"- ";padding-left:10px}
+.pipeline{display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:center;margin:20px 0}
+.pipe-step{background:#1a102e;border:1px solid #2a1a44;border-radius:12px;padding:20px 24px;min-width:180px}
+.pipe-step .icon{font-size:2rem;margin-bottom:8px}
+.pipe-step .name{font-weight:700;font-size:1rem;color:#fff}
+.pipe-step .role{font-size:.75rem;color:#a78bfa;margin-top:4px}
+.arrow{font-size:1.5rem;color:#4a4560}
+.arch{font-family:'Cascadia Code',monospace;font-size:.78rem;color:#9ca3af;line-height:1.8;background:#0a0614;padding:20px 30px;border-radius:12px;border:1px solid #1a102e;text-align:left}
+.criteria{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;max-width:900px;margin:20px auto}
+.crit-card{background:#1a102e;border:1px solid #2a1a44;border-radius:12px;padding:20px;text-align:left}
+.crit-card .crit-label{font-size:.7rem;color:#a78bfa;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.crit-card .crit-val{font-size:.9rem;color:#c4c0d4;line-height:1.5}
+.links{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-top:20px}
+.link-btn{background:#ef444418;color:#ef4444;border:1px solid #ef444430;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;font-size:.9rem;transition:all .2s}
+.link-btn:hover{background:#ef444425}
+@media(max-width:600px){.slide h1{font-size:1.8rem}.slide h2{font-size:1.2rem}.slide{padding:40px 20px}}
+</style>
+</head>
+<body>
+
+<div class="slide">
+<h1>Cerbe<span>rus</span></h1>
+<h2>3-Agent Autonomous Security on Somnia Agentic L1</h2>
+<p>Three AI agents. One 60-second heartbeat. Zero trust required.</p>
+<p class="tag">Somnia Agentathon 2026 · Solo Developer · Built in 3 Days</p>
+</div>
+
+<div class="slide">
+<h2>The Problem</h2>
+<ul class="problem-list">
+<li>Smart contracts have <strong>no immune system</strong></li>
+<li>Oracles get manipulated — nobody detects it in time</li>
+<li>Price feeds diverge — funds drain before humans react</li>
+<li>Exploits happen in seconds, responses take hours</li>
+</ul>
+<p style="margin-top:20px;font-style:italic;color:#a78bfa">"Who watches the watchers?"</p>
+</div>
+
+<div class="slide">
+<h2>The Solution: 3-Agent Pipeline</h2>
+<div class="pipeline">
+<div class="pipe-step"><div class="icon">📡</div><div class="name">OracleGuard</div><div class="role">Detects anomalies<br>3 price feeds<br>60s scan</div></div>
+<div class="arrow">→</div>
+<div class="pipe-step"><div class="icon">🧠</div><div class="name">ThreatClassifier</div><div class="role">Deterministic LLM<br>NONE→LOW→MED→CRIT<br>Verifiable receipt</div></div>
+<div class="arrow">→</div>
+<div class="pipe-step"><div class="icon">⚡</div><div class="name">CircuitBreaker</div><div class="role">Auto-pause contracts<br>On-chain proof<br>Receipt embedded</div></div>
+</div>
+<p>Somnia primitives: JSON API Request · LLM Inference · Verifiable Receipts</p>
+</div>
+
+<div class="slide">
+<h2>Architecture</h2>
+<div class="arch">
+   CoinGecko ──┐<br>
+   Binance  ──┼──→ <span style="color:#60a5fa">OracleGuard</span> ──→ <span style="color:#a78bfa">ThreatClassifier</span> ──→ <span style="color:#ef4444">CircuitBreaker</span><br>
+   CryptoCompare ┘     │                    │                    │<br>
+                       ▼                    ▼                    ▼<br>
+                   receipt              receipt              receipt<br>
+                                        │<br>
+                          <span style="color:#f59e0b">CerberusSentinel.sol</span> (Somnia Testnet)<br>
+                                   protect() · pauseContract()<br>
+</div>
+</div>
+
+<div class="slide">
+<h2>Live Dashboard</h2>
+<p>4 tabs: Overview · Agent Pipeline · Event Log · About</p>
+<p>6 metric cards, live ETH/USD from 3 sources, one-click anomaly simulation</p>
+<p>Color-coded event log with 5 filters, auto-refresh 2s</p>
+<p style="margin-top:20px">🟢 Deployed on Railway · <span style="color:#a78bfa">https://cerberus-production-8429.up.railway.app</span></p>
+</div>
+
+<div class="slide">
+<h2>Why This Wins</h2>
+<div class="criteria">
+<div class="crit-card"><div class="crit-label">Agent-First Design</div><div class="crit-val">Agents discover anomalies, invoke each other, act without humans. Full Somnia pipeline.</div></div>
+<div class="crit-card"><div class="crit-label">Innovation</div><div class="crit-val">First security sentinel using deterministic LLM for threat classification with verifiable on-chain receipts.</div></div>
+<div class="crit-card"><div class="crit-label">Autonomous</div><div class="crit-val">60s heartbeat, self-healing, runs 24/7. 36+ clean iterations in testing.</div></div>
+<div class="crit-card"><div class="crit-label">Functionality</div><div class="crit-val">Working prototype, 3 live price sources, deployed on Railway, one-click demo trigger.</div></div>
+</div>
+</div>
+
+<div class="slide">
+<h2>Links</h2>
+<div class="links">
+<a class="link-btn" href="https://github.com/Gideon145/cerberus" target="_blank">📁 GitHub</a>
+<a class="link-btn" href="https://cerberus-production-8429.up.railway.app" target="_blank">🚀 Live Demo</a>
+<a class="link-btn" href="CV-Opukeme-Gideon-Somnia.pdf" target="_blank">📄 CV</a>
+</div>
+<p style="margin-top:30px">Built in 3 days. 6 autonomous agents shipped across 5 chains.</p>
+<p class="tag">@og_xavierrr · opukemegideon@gmail.com</p>
+</div>
+
+</body>
+</html>

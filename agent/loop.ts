@@ -267,6 +267,7 @@ let simulateAnomaly = false;
 
 function startServer() {
   const dashboardPath = path.join(process.cwd(), "frontend", "index.html");
+  const presentationPath = path.join(process.cwd(), "frontend", "presentation.html");
 
   http
     .createServer((req, res) => {
@@ -277,6 +278,20 @@ function startServer() {
         res.end(JSON.stringify({ ok: true, msg: "Anomaly will trigger on next iteration" }));
         log("DEMO", "Simulated anomaly triggered — next pipeline iteration will fire");
         return;
+      }
+
+      // Presentation
+      if (req.url === "/presentation") {
+        try {
+          const html = fs.readFileSync(presentationPath, "utf-8");
+          res.writeHead(200, { "Content-Type": "text/html; charset=utf-8", "Access-Control-Allow-Origin": "*" });
+          res.end(html);
+          return;
+        } catch {
+          res.writeHead(404, { "Content-Type": "text/plain" });
+          res.end("Presentation not found");
+          return;
+        }
       }
 
       // Dashboard
