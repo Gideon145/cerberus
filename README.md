@@ -2,7 +2,7 @@
 
 **3-Agent Autonomous Security Sentinel on Somnia Agentic L1**
 
-[![GitHub](https://img.shields.io/badge/GitHub-View%20Repo-ef4444)](https://github.com/Gideon145/cerberus) [![Demo](https://img.shields.io/badge/Demo-YouTube-red)](https://youtube.com/shorts/oDqEUR_oynA) [![Live](https://img.shields.io/badge/Live-Railway-10b981)](https://cerberus-production-8429.up.railway.app) [![CV](https://img.shields.io/badge/CV-Gideon.pdf-purple)](./CV-Gideon-Somnia.pdf)
+[![GitHub](https://img.shields.io/badge/GitHub-View%20Repo-ef4444)](https://github.com/Gideon145/cerberus) [![Demo](https://img.shields.io/badge/Demo-YouTube-red)](https://youtube.com/shorts/oDqEUR_oynA) [![Live](https://img.shields.io/badge/Live-Railway-10b981)](https://cerberus-production-8429.up.railway.app) [![CV](https://img.shields.io/badge/CV-Gideon.pdf-purple)](./docs/CV-Gideon-Somnia.pdf)
 
 [![Somnia](https://img.shields.io/badge/Somnia-Agentic%20L1-8b5cf6)](https://somnia.network) [![Solidity](https://img.shields.io/badge/Solidity-0.8.20-363636)](https://soliditylang.org) [![TypeScript](https://img.shields.io/badge/TypeScript-5.4-blue)](https://www.typescriptlang.org/) [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 

@@ -4,3 +4,5 @@ dist/
 cache/
 artifacts/
 typechain-types/
+demo-audio.mp3
+demo-script.txt
