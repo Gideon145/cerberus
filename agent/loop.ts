@@ -19,7 +19,7 @@ dotenv.config();
 const RPC_URL = (process.env.SOMNIA_RPC || "https://api.infra.testnet.somnia.network").trim();
 const PRIVATE_KEY = (process.env.AGENT_PRIVATE_KEY || "").trim();
 const SENTINEL_ADDRESS = (process.env.SENTINEL_ADDRESS || "").trim();
-const STATUS_PORT = parseInt(process.env.STATUS_PORT || "3001");
+const STATUS_PORT = parseInt(process.env.PORT || process.env.STATUS_PORT || "3001");
 
 // ── Wallets & Contracts ───────────────────────────────────────────────────────
 
@@ -335,9 +335,14 @@ async function main() {
 
   startServer();
 
-  // Run immediately, then every 60s
-  await runPipeline();
-  setInterval(runPipeline, 60000);
+  // Run immediately, then every 60s — errors in one iteration never crash the server
+  const safeRun = async () => {
+    try { await runPipeline(); } catch (e: any) {
+      log("CERBERUS", `Pipeline error (non-fatal): ${e.message?.slice(0, 80)}`);
+    }
+  };
+  await safeRun();
+  setInterval(safeRun, 60000);
 
   log("CERBERUS", "3 agents watching. 60s heartbeat.");
 }
@@ -346,3 +351,7 @@ main().catch((e) => {
   console.error("Cerberus failed to start:", e);
   process.exit(1);
 });
+
+// Keep process alive on unhandled errors
+process.on("uncaughtException", (e) => console.error("Uncaught:", e.message));
+process.on("unhandledRejection", (e: any) => console.error("Unhandled:", e?.message));
