@@ -75,14 +75,14 @@ function log(kind: string, msg: string) {
 const PRICE_FEEDS = [
   { name: "CoinGecko", url: "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd" },
   { name: "Binance", url: "https://api.binance.com/api/v3/ticker/price?symbol=ETHUSDT" },
-  { name: "Coinbase", url: "https://api.coinbase.com/v2/prices/ETH-USD/spot" },
+  { name: "Kraken", url: "https://api.kraken.com/0/public/Ticker?pair=ETHUSD" },
 ];
 
 function extractPrice(data: any, source: string): number | null {
   try {
     if (source === "CoinGecko") return data.ethereum?.usd;
     if (source === "Binance") return parseFloat(data.price);
-    if (source === "Coinbase") return parseFloat(data.data?.amount);
+    if (source === "Kraken") return parseFloat(data.result?.XETHZUSD?.c?.[0]);
   } catch {}
   return null;
 }
