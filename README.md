@@ -257,12 +257,7 @@ cerberus/
 
 ## Demo
 
-**What to show:**
-1. Agent boot — 3 agents initialize, wallet address displayed
-2. Dashboard overview — live ETH price from 3 sources
-3. Pipeline tab — agent detail cards with Somnia primitive badges
-4. Simulated anomaly — ThreatClassifier detects, CircuitBreaker pauses
-5. Event log — filter by Critical to see pause with receipt hash
+**Watch:** https://youtube.com/shorts/oDqEUR_oynA
 
 ---
 
