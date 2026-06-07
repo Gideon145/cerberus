@@ -60,13 +60,12 @@ OracleGuard fetches ETH/USD from 3 independent sources (CoinGecko, Binance, Cryp
 
 ## Judging Criteria
 
-**Functionality:** Deployed on Somnia Testnet. 23+ pipeline iterations without critical failure. 3 live price sources. Contract verified on-chain.
-
-**Agent-First Design:** All 3 agents operate natively on Somnia. JSON API Request for data fetching. LLM Inference for deterministic classification. Agents discover anomalies, invoke each other, and act autonomously.
-
-**Innovation:** First on-chain security sentinel using deterministic LLM for threat classification. Not rule-based — AI reasoning with verifiable cryptographic receipts.
-
-**Autonomous Performance:** 60-second self-healing heartbeat. Error-isolated pipeline. Survives API failures and RPC drops. Runs indefinitely.
+| Criterion | How Cerberus Delivers |
+|---|---|
+| **Functionality** | Deployed on Somnia Testnet. 10+ pipeline iterations. Contract verified on-chain. |
+| **Agent-First** | All 3 agents use Somnia primitives. Discover anomalies, invoke each other, act autonomously. |
+| **Innovation** | First deterministic LLM for on-chain security classification with verifiable receipts. |
+| **Autonomous** | 60s heartbeat, self-healing, survives failures. Runs indefinitely. |
 
 ---
 
