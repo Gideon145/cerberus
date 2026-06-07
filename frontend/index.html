@@ -3,57 +3,94 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cerberus — Agent Dashboard</title>
+<title>Cerberus — Autonomous Security</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%23ef4444'/><stop offset='100%' stop-color='%23f59e0b'/></linearGradient></defs><rect width='100' height='100' rx='20' fill='url(%23g)'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='white'>C</text></svg>">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#050510;--surface:#0a0a20;--border:#1a1a35;--muted:#4b5570;--text:#c4cdd8;--white:#f0f4ff;
+:root{--bg:#06040a;--surface:#0c081a;--border:#1a102e;--muted:#4a4560;--text:#c4c0d4;--white:#f0edfa;
   --red:#ef4444;--red-bg:#ef444412;--amber:#f59e0b;--amber-bg:#f59e0b12;
   --green:#10b981;--green-bg:#10b98112;--purple:#a78bfa;--purple-bg:#8b5cf612;
   --blue:#60a5fa;--blue-bg:#3b82f612}
-body{background:var(--bg);color:var(--text);font-family:system-ui,sans-serif;min-height:100vh}
-body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 30% 20%,#ef444408 0%,transparent 50%),radial-gradient(ellipse at 70% 60%,#8b5cf608 0%,transparent 50%);pointer-events:none;z-index:0}
+body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(ellipse at 30% 20%,#ef444408 0%,transparent 50%),radial-gradient(ellipse at 70% 60%,#f59e0b06 0%,transparent 50%),radial-gradient(ellipse at 50% 80%,#8b5cf606 0%,transparent 50%);pointer-events:none;z-index:0;animation:bgShift 24s ease-in-out infinite alternate}
+@keyframes bgShift{0%{transform:translate(0,0)}100%{transform:translate(3%,2%)}}
 header{position:relative;z-index:1;background:var(--surface);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
-.logo{display:flex;align-items:center;gap:10px;font-size:1.15rem;font-weight:700;color:var(--white)}
-.logo-icon{font-size:1.5rem}
-.logo span{color:var(--red)}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-icon{width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,#ef4444,#f59e0b);display:flex;align-items:center;justify-content:center;font-size:.95rem;font-weight:900;color:#fff}
+.logo-text{font-size:1.1rem;font-weight:700;color:var(--white)}
+.logo-text span{color:var(--red)}
+.status-dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;display:inline-block;margin-right:6px}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 #10b98140}50%{opacity:.5;box-shadow:0 0 0 8px #10b98100}}
 .badges{display:flex;gap:8px;flex-wrap:wrap}
-.badge{padding:5px 14px;border-radius:20px;font-size:.7rem;font-weight:600}
+.badge{padding:5px 14px;border-radius:20px;font-size:.72rem;font-weight:600;display:flex;align-items:center;gap:5px}
 .badge-live{background:var(--green-bg);color:var(--green);border:1px solid #10b98130}
 .badge-somnia{background:var(--purple-bg);color:var(--purple);border:1px solid #8b5cf630}
 .badge-agents{background:var(--blue-bg);color:var(--blue);border:1px solid #60a5fa30}
-.status-dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;display:inline-block;margin-right:5px}
-@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 #10b98140}50%{opacity:.5;box-shadow:0 0 0 8px #10b98100}}
-main{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:20px 24px}
-.agents{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-bottom:24px}
-.agent-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;transition:all .2s}
-.agent-card:hover{border-color:#ffffff12;transform:translateY(-1px)}
-.agent-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
-.agent-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem}
-.agent-icon.og{background:var(--blue-bg);color:var(--blue)}
-.agent-icon.tc{background:var(--purple-bg);color:var(--purple)}
-.agent-icon.cb{background:var(--red-bg);color:var(--red)}
-.agent-name{font-weight:700;color:var(--white)}
-.agent-role{font-size:.72rem;color:var(--muted)}
-.agent-status{font-size:.7rem;margin-top:4px}
-.metric-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #ffffff04;font-size:.78rem}
-.metric-row:last-child{border:none}
-.metric-val{font-weight:600;color:var(--white)}
-.alert-log{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden}
-.alert-header{padding:12px 20px;border-bottom:1px solid var(--border);font-size:.78rem;color:var(--muted);display:flex;justify-content:space-between}
-.alert-body{max-height:320px;overflow-y:auto;padding:8px 16px;font-family:'Cascadia Code',monospace;font-size:.72rem;line-height:2.2}
-.alert-line{display:flex;gap:10px;align-items:flex-start}
-.alert-line .ts{color:#4b5570;flex-shrink:0;min-width:75px}
-.alert-line.critical{color:var(--red)}
-.alert-line.medium{color:var(--amber)}
-.alert-line.low{color:var(--blue)}
-.alert-line.info{color:#8b95a8}
-footer{position:relative;z-index:1;text-align:center;padding:16px;color:var(--muted);font-size:.7rem;border-top:1px solid var(--border)}
-@media(max-width:600px){.agents{grid-template-columns:1fr}}
+main{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:20px 24px}
+.tabs{display:flex;gap:2px;margin-bottom:20px;background:var(--surface);border-radius:10px;padding:4px;border:1px solid var(--border);width:fit-content}
+.tab{padding:8px 20px;border-radius:8px;font-size:.82rem;font-weight:500;cursor:pointer;color:var(--muted);border:none;background:none;transition:all .15s}
+.tab:hover{color:var(--text)}
+.tab.active{background:var(--red-bg);color:var(--red);font-weight:600}
+.panel{display:none}
+.panel.active{display:block}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:20px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 20px;transition:all .3s;position:relative;overflow:hidden}
+.card::after{content:'';position:absolute;inset:0;border-radius:12px;opacity:0;transition:opacity .3s;pointer-events:none}
+.card:hover{border-color:#ffffff12;transform:translateY(-1px)}
+.card:hover::after{opacity:1}
+.card:nth-child(1):hover::after{box-shadow:0 0 30px #60a5fa10}
+.card:nth-child(2):hover::after{box-shadow:0 0 30px #a78bfa10}
+.card:nth-child(3):hover::after{box-shadow:0 0 30px #10b98110}
+.card:nth-child(4):hover::after{box-shadow:0 0 30px #f59e0b10}
+.card:nth-child(5):hover::after{box-shadow:0 0 30px #ef444410}
+.card:nth-child(6):hover::after{box-shadow:0 0 30px #a78bfa10}
+.card .label{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.card .value{font-size:1.5rem;font-weight:700;color:var(--white);transition:transform .2s ease}
+.card .sub{font-size:.72rem;color:var(--muted);margin-top:4px}
+.pipeline{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:24px}
+.pipe-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:22px;transition:all .3s;position:relative}
+.pipe-card:hover{border-color:#ffffff10;transform:translateY(-1px)}
+.pipe-card .pipe-header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.pipe-card .pipe-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+.pipe-card .pipe-icon.og{background:var(--blue-bg);color:var(--blue)}
+.pipe-card .pipe-icon.tc{background:var(--purple-bg);color:var(--purple)}
+.pipe-card .pipe-icon.cb{background:var(--red-bg);color:var(--red)}
+.pipe-card .pipe-name{font-weight:700;color:var(--white);font-size:.95rem}
+.pipe-card .pipe-role{font-size:.7rem;color:var(--muted);margin-top:2px}
+.pipe-card .pipe-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pipe-card .pipe-stat{background:#ffffff03;border-radius:8px;padding:10px 12px}
+.pipe-card .pipe-stat .ps-label{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.pipe-card .pipe-stat .ps-val{font-size:.85rem;font-weight:600;color:var(--white)}
+.ev-log{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.ev-header{padding:12px 20px;border-bottom:1px solid var(--border);font-size:.78rem;color:var(--muted);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.ev-filters{display:flex;gap:6px}
+.ev-filter{padding:3px 12px;border-radius:12px;font-size:.68rem;cursor:pointer;background:transparent;border:1px solid var(--border);color:var(--muted);transition:all .15s}
+.ev-filter:hover,.ev-filter.on{border-color:var(--red);color:var(--red)}
+.ev-body{max-height:400px;overflow-y:auto;padding:8px 16px;font-family:'Cascadia Code','Fira Code',monospace;font-size:.74rem;line-height:2}
+.ev-line{padding:3px 0;display:flex;gap:8px;align-items:flex-start}
+.ev-line .ts{color:#4a4560;flex-shrink:0;min-width:75px}
+.ev-line.critical{color:var(--red)}
+.ev-line.medium{color:var(--amber)}
+.ev-line.low{color:var(--blue)}
+.ev-line.info{color:#9ca3af}
+.about-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;max-width:700px}
+.about-card h3{color:var(--white);margin-bottom:12px;font-size:1.1rem}
+.about-card p{color:var(--text);font-size:.85rem;line-height:1.7;margin-bottom:8px}
+.about-card code{background:#ffffff08;padding:2px 6px;border-radius:4px;font-size:.8rem;color:var(--purple)}
+.about-card .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.about-card .about-item{background:#ffffff03;border-radius:8px;padding:10px 14px}
+.about-card .about-item .ai-label{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.about-card .about-item .ai-val{font-size:.8rem;font-family:'Cascadia Code',monospace;color:var(--white)}
+footer{position:relative;z-index:1;padding:16px 24px;text-align:center;color:var(--muted);font-size:.7rem;border-top:1px solid var(--border)}
+@media(max-width:640px){.pipeline{grid-template-columns:1fr}.cards{grid-template-columns:repeat(2,1fr)}header{padding:12px 16px}main{padding:16px}.about-card .about-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <header>
-<div class="logo"><span class="logo-icon">🐕</span>Cerbe<span>rus</span></div>
+<div class="logo">
+<div class="logo-icon">⬡</div>
+<div class="logo-text">Cerbe<span>rus</span></div>
+</div>
 <div class="badges">
 <span class="badge badge-live" id="liveBadge"><span class="status-dot"></span>AGENTS LIVE</span>
 <span class="badge badge-somnia" id="chainBadge">Somnia Testnet</span>
@@ -61,65 +98,138 @@ footer{position:relative;z-index:1;text-align:center;padding:16px;color:var(--mu
 </div>
 </header>
 <main>
-<div class="agents">
-<div class="agent-card">
-<div class="agent-header">
-<div class="agent-icon og">📡</div>
-<div><div class="agent-name">OracleGuard</div><div class="agent-role">Price Feed Monitor</div></div>
+<div class="tabs">
+<button class="tab active" onclick="switchTab('overview')">📡 Overview</button>
+<button class="tab" onclick="switchTab('pipeline')">⚡ Agent Pipeline</button>
+<button class="tab" onclick="switchTab('events')">📜 Event Log</button>
+<button class="tab" onclick="switchTab('about')">ℹ About</button>
 </div>
-<div class="metric-row"><span>Sources</span><span class="metric-val" id="ogSources">3</span></div>
-<div class="metric-row"><span>Interval</span><span class="metric-val">60s</span></div>
-<div class="metric-row"><span>Status</span><span class="metric-val" id="ogStatus" style="color:var(--green)">Active</span></div>
+<div class="panel active" id="panel-overview">
+<div class="cards">
+<div class="card"><div class="label">📡 Oracle Sources</div><div class="value">3</div><div class="sub">CoinGecko + Binance + Coinbase</div></div>
+<div class="card"><div class="label">🔄 Iterations</div><div class="value" id="vIter">---</div><div class="sub" id="vUptime"></div></div>
+<div class="card"><div class="label">⚠ Anomalies Detected</div><div class="value" style="color:var(--amber)" id="vAnomalies">0</div></div>
+<div class="card"><div class="label">⚡ CRITICAL Alerts</div><div class="value" style="color:var(--red)" id="vCriticals">0</div></div>
+<div class="card"><div class="label">🛡 Contracts Paused</div><div class="value" style="color:var(--red)" id="vPauses">0</div></div>
+<div class="card"><div class="label">💰 ETH / USD</div><div class="value" style="color:var(--purple)" id="vPrice">---</div></div>
 </div>
-<div class="agent-card">
-<div class="agent-header">
-<div class="agent-icon tc">🧠</div><div><div class="agent-name">ThreatClassifier</div><div class="agent-role">LLM Inference</div></div>
-</div>
-<div class="metric-row"><span>Model</span><span class="metric-val">Deterministic LLM</span></div>
-<div class="metric-row"><span>Receipts</span><span class="metric-val" id="tcReceipts">---</span></div>
-<div class="metric-row"><span>Status</span><span class="metric-val" id="tcStatus" style="color:var(--green)">Ready</span></div>
-</div>
-<div class="agent-card">
-<div class="agent-header">
-<div class="agent-icon cb">⚡</div><div><div class="agent-name">CircuitBreaker</div><div class="agent-role">Contract Protection</div></div>
-</div>
-<div class="metric-row"><span>Protected</span><span class="metric-val" id="cbProtected">---</span></div>
-<div class="metric-row"><span>Pauses</span><span class="metric-val" id="cbPauses">---</span></div>
-<div class="metric-row"><span>Status</span><span class="metric-val" id="cbStatus" style="color:var(--green)">Armed</span></div>
+<div class="ev-log">
+<div class="ev-header"><span>Recent Pipeline Events</span><span style="font-size:.7rem;color:var(--red)">Auto-refresh 2s</span></div>
+<div class="ev-body" id="miniLog"></div>
 </div>
 </div>
-<div class="alert-log">
-<div class="alert-header"><span>Pipeline Event Log</span><span style="color:var(--blue)">Auto-refresh 3s</span></div>
-<div class="alert-body" id="eventLog"></div>
+<div class="panel" id="panel-pipeline">
+<div class="pipeline">
+<div class="pipe-card">
+<div class="pipe-header"><div class="pipe-icon og">📡</div><div><div class="pipe-name">OracleGuard</div><div class="pipe-role">Price Feed Monitor · 60s Loop</div></div></div>
+<div class="pipe-meta">
+<div class="pipe-stat"><div class="ps-label">Sources</div><div class="ps-val">CoinGecko, Binance, Coinbase</div></div>
+<div class="pipe-stat"><div class="ps-label">Threshold</div><div class="ps-val">&gt;2% deviation</div></div>
+<div class="pipe-stat"><div class="ps-label">Somnia Primitive</div><div class="ps-val">JSON API Request</div></div>
+<div class="pipe-stat"><div class="ps-label">Status</div><div class="ps-val" style="color:var(--green)">▶ Active</div></div>
+</div>
+</div>
+<div class="pipe-card">
+<div class="pipe-header"><div class="pipe-icon tc">🧠</div><div><div class="pipe-name">ThreatClassifier</div><div class="pipe-role">LLM Inference · Deterministic</div></div></div>
+<div class="pipe-meta">
+<div class="pipe-stat"><div class="ps-label">Model</div><div class="ps-val">Deterministic LLM</div></div>
+<div class="pipe-stat"><div class="ps-label">Levels</div><div class="ps-val">NONE → LOW → MED → CRIT</div></div>
+<div class="pipe-stat"><div class="ps-label">Somnia Primitive</div><div class="ps-val">LLM Inference</div></div>
+<div class="pipe-stat"><div class="ps-label">Status</div><div class="ps-val" style="color:var(--green)">◉ Ready</div></div>
+</div>
+</div>
+<div class="pipe-card">
+<div class="pipe-header"><div class="pipe-icon cb">⚡</div><div><div class="pipe-name">CircuitBreaker</div><div class="pipe-role">Contract Protection · Auto-Pause</div></div></div>
+<div class="pipe-meta">
+<div class="pipe-stat"><div class="ps-label">Protected</div><div class="ps-val" id="cbProtected2">---</div></div>
+<div class="pipe-stat"><div class="ps-label">Pauses</div><div class="ps-val" id="cbPauses2">0</div></div>
+<div class="pipe-stat"><div class="ps-label">Receipt</div><div class="ps-val">On-Chain Verifiable</div></div>
+<div class="pipe-stat"><div class="ps-label">Status</div><div class="ps-val" style="color:var(--green)">⚡ Armed</div></div>
+</div>
+</div>
+</div>
+<div class="ev-log">
+<div class="ev-header"><span>Pipeline Event Log</span><span style="font-size:.7rem;color:var(--red)">Auto-refresh 2s</span></div>
+<div class="ev-body" id="pipelineLog"></div>
+</div>
+</div>
+<div class="panel" id="panel-events">
+<div class="ev-log">
+<div class="ev-header">
+<span>Agent Event Log</span>
+<div class="ev-filters">
+<button class="ev-filter on" data-filter="all" onclick="setFilter('all',this)">All</button>
+<button class="ev-filter" data-filter="CRITICAL" onclick="setFilter('CRITICAL',this)">Critical</button>
+<button class="ev-filter" data-filter="MEDIUM" onclick="setFilter('MEDIUM',this)">Medium</button>
+<button class="ev-filter" data-filter="OracleGuard" onclick="setFilter('OracleGuard',this)">OracleGuard</button>
+<button class="ev-filter" data-filter="ERROR" onclick="setFilter('ERROR',this)">Errors</button>
+</div>
+</div>
+<div class="ev-body" id="fullLog"></div>
+</div>
+</div>
+<div class="panel" id="panel-about">
+<div class="about-card">
+<h3>Cerberus — 3-Agent Autonomous Security</h3>
+<p>Cerberus is an autonomous security network on <strong>Somnia Agentic L1</strong>. Three AI agents run a 60-second pipeline — detecting oracle anomalies, classifying threats via deterministic LLM, and automatically pausing compromised contracts.</p>
+<p>Every decision produces a <strong>verifiable receipt</strong> proving the AI caught the threat autonomously. Zero human intervention. Self-healing pipeline.</p>
+<div class="about-grid" style="margin-top:14px">
+<div class="about-item"><div class="ai-label">Agent Wallet</div><div class="ai-val" id="aboutWallet">---</div></div>
+<div class="about-item"><div class="ai-label">Sentinel Contract</div><div class="ai-val" id="aboutSentinel">---</div></div>
+<div class="about-item"><div class="ai-label">Chain</div><div class="ai-val" id="aboutChain">---</div></div>
+<div class="about-item"><div class="ai-label">RPC</div><div class="ai-val" id="aboutRpc">---</div></div>
+</div>
+</div>
 </div>
 </main>
 <footer>Cerberus · 3-Agent Autonomous Security · Somnia Agentic L1 · Encode Agentathon 2026</footer>
 <script>
+let currentTab='overview',currentFilter='all',data=null;
+function switchTab(t){currentTab=t;document.querySelectorAll('.tab').forEach(b=>{const x=b.textContent.toLowerCase();b.classList.toggle('active',x.includes(t))});document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id==='panel-'+t))}
+function setFilter(f,btn){currentFilter=f;document.querySelectorAll('.ev-filter').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderEvents()}
 function fmtAddr(a){return a?a.slice(0,6)+'...'+a.slice(-4):'---'}
-function fmtTime(ts){if(!ts)return'';const d=new Date(ts);const h=d.getHours().toString().padStart(2,'0');const m=d.getMinutes().toString().padStart(2,'0');const s=d.getSeconds().toString().padStart(2,'0');return h+':'+m+':'+s}
-
+function fmtUptime(s){const m=Math.floor(s/60),h=Math.floor(m/60),d=Math.floor(h/24);if(d)return d+'d '+h%24+'h';if(h)return h+'h '+m%60+'m';return m+'m '+s%60+'s'}
+function renderEvents(){
+  if(!data)return;
+  const all=data.stats?.events||[];
+  const f=currentFilter==='all'?all:all.filter(e=>e.toLowerCase().includes(currentFilter.toLowerCase()));
+  const h=f.slice(0,50).map(e=>{
+    let c='info';if(e.includes('CRITICAL')||e.includes('PAUSED'))c='critical';else if(e.includes('MEDIUM'))c='medium';else if(e.includes('OracleGuard')||e.includes('LOW'))c='low';
+    return'<div class="ev-line '+c+'"><span class="ts">'+e.slice(1,20)+'</span><span>'+e.slice(22)+'</span></div>'
+  }).join('')||'<div class="ev-line info"><span class="ts">------</span><span>Waiting for events...</span></div>';
+  document.getElementById('fullLog').innerHTML=h;
+  document.getElementById('pipelineLog').innerHTML=f.slice(0,20).map(e=>{
+    let c='info';if(e.includes('CRITICAL')||e.includes('PAUSED'))c='critical';else if(e.includes('MEDIUM'))c='medium';else if(e.includes('OracleGuard')||e.includes('LOW'))c='low';
+    return'<div class="ev-line '+c+'"><span class="ts">'+e.slice(1,20)+'</span><span>'+e.slice(22)+'</span></div>'
+  }).join('')||'<div class="ev-line info"><span class="ts">------</span><span>Waiting...</span></div>';
+  document.getElementById('miniLog').innerHTML=all.slice(0,12).map(e=>{
+    let c='info';if(e.includes('CRITICAL')||e.includes('PAUSED'))c='critical';else if(e.includes('MEDIUM'))c='medium';else if(e.includes('OracleGuard')||e.includes('LOW'))c='low';
+    return'<div class="ev-line '+c+'"><span class="ts">'+e.slice(1,20)+'</span><span>'+e.slice(22)+'</span></div>'
+  }).join('')||'<div class="ev-line info"><span class="ts">------</span><span>Waiting...</span></div>';
+}
 async function refresh(){
   try{
-    const res=await fetch('/status');
-    const d=await res.json();
-    if(!d.ok)return;
-
-    document.getElementById('chainBadge').textContent=d.chain||'Somnia';
-    document.getElementById('cbProtected').textContent=(d.protected||[]).map(fmtAddr).join(', ')||'---';
-    document.getElementById('cbPauses').textContent=d.stats?.pauses||'0';
-
-    const events=(d.stats?.events||[]).slice(0,40);
-    document.getElementById('eventLog').innerHTML=events.map(e=>{
-      let cls='info';
-      if(e.includes('CRITICAL')||e.includes('PAUSED'))cls='critical';
-      else if(e.includes('MEDIUM'))cls='medium';
-      else if(e.includes('LOW')||e.includes('OracleGuard'))cls='low';
-      return'<div class="alert-line '+cls+'"><span class="ts">'+e.slice(1,20)+'</span><span>'+e.slice(22)+'</span></div>'
-    }).join('')||'<div class="alert-line info"><span class="ts">--</span><span>Waiting for pipeline events...</span></div>';
+    const r=await fetch('/status');const s=await r.json();if(!s.ok)return;data=s;
+    const el=(id,v)=>{const e=document.getElementById(id);if(e.textContent!==v){e.textContent=v;e.style.transform='scale(1.06)';setTimeout(()=>e.style.transform='',200)}};
+    el('vIter',String(s.stats?.iterations||0));
+    el('vAnomalies',String(s.stats?.anomalies||0));
+    el('vCriticals',String(s.stats?.criticals||0));
+    el('vPauses',String(s.stats?.pauses||0));
+    const rSec=Math.floor((Date.now()-new Date(s.stats?.startTime||Date.now()).getTime())/1000);
+    document.getElementById('vUptime').textContent='Uptime: '+fmtUptime(Math.max(rSec,0));
+    document.getElementById('liveBadge').innerHTML='<span class="status-dot"></span>AGENTS LIVE · '+fmtUptime(Math.max(rSec,0));
+    document.getElementById('chainBadge').textContent=s.chain||'Somnia';
+    const prot=s.protected||[];
+    document.getElementById('cbProtected2').textContent=prot.length?prot.map(fmtAddr).join(', '):'---';
+    document.getElementById('cbPauses2').textContent=String(s.stats?.pauses||0);
+    document.getElementById('aboutWallet').textContent=s.stats?.wallet||s.wallet||'---';
+    document.getElementById('aboutSentinel').textContent=s.sentinel||'---';
+    document.getElementById('aboutChain').textContent=s.chain||'---';
+    document.getElementById('aboutRpc').textContent=s.rpcUrl||'---';
+    renderEvents();
   }catch(e){console.error(e)}
 }
-refresh();
-setInterval(refresh,3000);
+refresh();setInterval(refresh,2000);
 </script>
 </body>
 </html>
