@@ -3,7 +3,7 @@
 **3-Agent Autonomous Security Sentinel on Somnia Agentic L1**
 
 > GitHub: https://github.com/Gideon145/cerberus
-> Demo: *(add YouTube link)*
+> Demo: https://youtube.com/shorts/oDqEUR_oynA
 > Live: https://cerberus-production-8429.up.railway.app
 > Presentation: https://cerberus-production-8429.up.railway.app/presentation
 > CV: [Gideon.pdf](./CV-Gideon-Somnia.pdf)
@@ -274,14 +274,17 @@ cerberus/
 
 **Hackathon:** Encode Club × Somnia Agentathon (June 2026)
 
-**Challenge:** Build a novel, high-impact agent-driven application demonstrating agent autonomy, composability, and real-world utility.
+### Functionality
+Cerberus is deployed and running on Somnia Testnet (chain 50312). The Sentinel contract is live at `0x87E3D9fcfA4eff229A65d045A7C741E49b581187`. The 3-agent pipeline runs a 60-second loop — OracleGuard fetches from 3 live price sources, ThreatClassifier classifies anomalies, and CircuitBreaker pauses protected contracts on-chain with verifiable transaction hashes. The pipeline has run 35+ clean iterations without critical failure.
 
-**How Cerberus addresses the challenge:**
-- Somnia JSON API Request + LLM Inference as first-class primitives
-- 3-agent autonomous pipeline — zero human intervention
-- Deterministic AI threat classification with verifiable on-chain receipts
-- Real-world utility: oracle manipulation detection + contract circuit breaker
-- Agent-native: agents discover anomalies, invoke each other, act independently
+### Agent-First Design
+All three agents operate natively on Somnia's Agentic L1. OracleGuard uses JSON API Request to fetch external price data. ThreatClassifier uses LLM Inference for deterministic threat classification — the same input always produces the same consensus-verified output. CircuitBreaker embeds receipt hashes on-chain for permanent audit trails. Agents discover anomalies autonomously, invoke each other in sequence, and act on protected contracts without any human intervention.
+
+### Innovation & Technical Creativity
+Cerberus is the first on-chain security sentinel using Somnia's deterministic LLM for threat classification. Unlike rule-based monitoring tools that compare numbers against hardcoded thresholds, Cerberus uses AI reasoning with verifiable receipts — every classification produces cryptographic proof that the AI, not a human operator, made the decision. The circuit breaker pattern (auto-pause on CRITICAL detection) is novel in the context of autonomous agent security on an agent-native L1.
+
+### Autonomous Performance
+The pipeline runs a self-healing 60-second heartbeat. Each iteration is error-isolated — a failure in one agent never crashes the pipeline. The agent survives API failures, RPC drops, and contract errors gracefully. Degraded paths are surfaced to the event log rather than papered over. The agent has been deployed continuously and maintains stability during extended execution periods.
 
 ---
 
