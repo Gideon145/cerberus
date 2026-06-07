@@ -1,207 +1,263 @@
-# Cerberus — 3-Agent Autonomous Security on Somnia
+# Cerberus
 
-**AI-powered security sentinel. Three agents. One heartbeat. Zero trust.**
+**3-Agent Autonomous Security Sentinel on Somnia Agentic L1**
 
-> *"Three AI agents watch your contracts. 24/7. Verifiably."*
+> GitHub: https://github.com/Gideon145/cerberus
+> Demo: *(add YouTube link)*
 
-[![Somnia](https://img.shields.io/badge/Somnia-Agentic%20L1-8b5cf6)](https://somnia.network) [![Encode](https://img.shields.io/badge/Encode-Agentathon%202026-blue)](https://www.encodeclub.com/programmes/agentathon) [![TypeScript](https://img.shields.io/badge/TypeScript-5.4-blue)](https://www.typescriptlang.org/)
-
-🎥 **Demo Video:** *(add link)*
-
----
-
-## What Is Cerberus?
-
-Cerberus is a **3-agent autonomous security network** built on Somnia's Agentic L1. Three specialized agents run a 60-second pipeline — detecting anomalies, classifying threats via deterministic AI, and automatically pausing compromised contracts.
-
-No human in the loop. Every decision produces a **verifiable receipt** proving the AI caught it autonomously.
+[![Somnia](https://img.shields.io/badge/Somnia-Agentic%20L1-8b5cf6)](https://somnia.network) [![Solidity](https://img.shields.io/badge/Solidity-0.8.20-363636)](https://soliditylang.org) [![TypeScript](https://img.shields.io/badge/TypeScript-5.4-blue)](https://www.typescriptlang.org/) [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
 ---
 
-## The Problem
+## Project Overview
 
-Smart contracts have no immune system. When an oracle is compromised, a price feed diverges, or an exploit pattern emerges, there's no autonomous mechanism to detect it and respond. By the time humans notice, funds are gone.
+Cerberus is not a single security scanner — it is a **three-agent autonomous pipeline** that detects oracle anomalies, classifies threats via deterministic AI, and automatically pauses compromised contracts. All on Somnia Agentic L1. All verifiable.
+
+**Why this matters:** Smart contracts have no immune system. When an oracle is manipulated, a price feed diverges, or an exploit pattern emerges, there is no autonomous mechanism to detect it and respond. By the time humans notice, funds are gone. Cerberus is that immune system.
+
+**Core differentiators:**
+
+- **3-Agent pipeline** — OracleGuard → ThreatClassifier → CircuitBreaker, 60s loop
+- **Deterministic LLM classification** — Somnia's consensus-verified AI assigns threat levels
+- **Verifiable receipts** — every anomaly, classification, and pause produces an on-chain receipt
+- **Circuit breaker** — contracts auto-paused when CRITICAL threats detected
+- **Self-healing** — pipeline runs indefinitely without human intervention
+- **Somnia-native** — JSON API Request + LLM Inference as first-class primitives
 
 ---
 
-## The Solution — 3-Agent Pipeline
+## System Architecture
 
 ```
-┌─────────────────┐     ┌──────────────────┐     ┌────────────────┐
-│   OracleGuard    │────▶│ ThreatClassifier  │────▶│ CircuitBreaker │
-│   (60s scan)     │     │  (LLM Inference)  │     │  (auto-pause)  │
-│                  │     │                   │     │                │
-│ • 3 price feeds  │     │ • Deterministic   │     │ • Pauses       │
-│ • Anomaly detect │     │   AI classifies   │     │   protected    │
-│ • CoinGecko +    │     │   threat level    │     │   contracts    │
-│   Binance +      │     │ • NONE / LOW /    │     │ • On-chain     │
-│   Coinbase       │     │   MEDIUM /        │     │   receipt      │
-│                  │     │   CRITICAL        │     │   proof         │
-└─────────────────┘     └──────────────────┘     └────────────────┘
-        │                        │                        │
-        ▼                        ▼                        ▼
-  verifiable receipt       verifiable receipt       verifiable receipt
+                    ┌─────────────────────────────────┐
+                    │       Somnia Agentic L1          │
+                    │  (Deterministic LLM + JSON API)  │
+                    └───────────────┬─────────────────┘
+                                    │ receipts
+            ┌───────────────────────┼───────────────────────┐
+            │                       │                       │
+   ┌────────▼────────┐    ┌────────▼────────┐    ┌────────▼────────┐
+   │  OracleGuard     │    │ ThreatClassifier │    │ CircuitBreaker   │
+   │  (60s scan)      │───▶│ (LLM Inference)  │───▶│ (auto-pause)     │
+   │                  │    │                  │    │                  │
+   │ • 3 price feeds  │    │ • NONE → LOW →   │    │ • pauseContract  │
+   │ • anomaly detect │    │   MED → CRITICAL │    │ • on-chain tx     │
+   │ • >2% deviation  │    │ • deterministic  │    │ • receipt proof   │
+   └──────────────────┘    └──────────────────┘    └──────────────────┘
+            │                       │                       │
+            └───────────────────────┼───────────────────────┘
+                                    │
+                     ┌──────────────▼──────────────┐
+                     │   CerberusSentinel.sol       │
+                     │   (Somnia Testnet 50312)     │
+                     │                              │
+                     │ • protect(address)           │
+                     │ • pauseContract(target,      │
+                     │     level, receiptId)        │
+                     │ • getLatestAlerts(count)     │
+                     └─────────────────────────────┘
 ```
+
+---
+
+## Agent Pipeline
 
 ### Agent 1: OracleGuard
+| Property | Value |
+|---|---|
+| **Role** | Price feed anomaly detection |
+| **Cycle** | 60 seconds |
+| **Somnia Primitive** | JSON API Request |
+| **Sources** | CoinGecko, Binance, CryptoCompare |
+| **Threshold** | >2% deviation |
 
-Fetches ETH/USD from **3 independent sources** (CoinGecko, Binance, Coinbase) every 60 seconds. Detects when any feed diverges from the consensus by more than 2%.
+Fetches ETH/USD from 3 independent sources. Detects when any feed diverges from consensus by >2%.
 
 ### Agent 2: ThreatClassifier
+| Property | Value |
+|---|---|
+| **Role** | Threat severity classification |
+| **Trigger** | OracleGuard anomaly detected |
+| **Somnia Primitive** | LLM Inference |
+| **Outputs** | NONE, LOW, MEDIUM, CRITICAL |
 
-Uses **Somnia LLM Inference** — a deterministic AI model running on validator nodes — to classify the threat level. Same input always produces the same output across all validators, enabling consensus-verified threat classification. Outputs: NONE, LOW, MEDIUM, or CRITICAL with a verifiable receipt hash.
+Uses Somnia's deterministic LLM — same input always produces the same output across validator nodes, enabling consensus-verified threat classification.
 
 ### Agent 3: CircuitBreaker
-
-Watches ThreatClassifier output. When a CRITICAL threat is detected, it **automatically pauses protected contracts** on-chain. Every pause produces a transaction with the receipt ID embedded, creating a permanent audit trail.
-
----
-
-## Somnia Agentic L1 Integration
-
-| Somnia Primitive | Agent | Usage |
-|---|---|---|
-| **JSON API Request** | OracleGuard | Fetches price data from 3 external APIs every 60s |
-| **LLM Inference** | ThreatClassifier | Deterministic AI classifies threat severity with verifiable receipts |
-| **Verifiable Receipts** | All 3 agents | Every anomaly, classification, and pause produces a receipt on-chain |
-
----
-
-## Live Deployment
-
-| Service | URL |
+| Property | Value |
 |---|---|
-| Status API | `http://localhost:3001` (JSON) |
-| Dashboard | `http://localhost:3001/dashboard` |
-| Sentinel Contract | Somnia Testnet (50312) |
+| **Role** | Autonomous contract protection |
+| **Trigger** | CRITICAL classification |
+| **Somnia Primitive** | Verifiable Receipts |
+
+When CRITICAL: calls `pauseContract()` on-chain, embedding the receipt ID for a permanent audit trail.
 
 ---
 
-## Agent Loop Deep Dive
+## Agent Loop
 
 ```
-Interval: 60 seconds (configurable)
+Interval: 60s
 
 Step 1: OracleGuard
-  └─ fetch(CoinGecko) → $1,853.42
-  └─ fetch(Binance)   → $1,852.98
-  └─ fetch(Coinbase)  → $1,853.11
+  └─ CoinGecko: $1,853.42 | Binance: $1,852.98 | CryptoCompare: $1,853.11
   └─ avg: $1,853.17 | max dev: 0.02% → NOMINAL
 
-Step 2: ThreatClassifier (triggered if anomaly)
-  └─ LLM Inference: "Classify threat: 15.3% deviation across feeds"
-  └─ → CRITICAL (receipt: 0x7a3b...)
+Step 2: ThreatClassifier (if anomaly)
+  └─ LLM: "Classify: 15.3% deviation across feeds"
+  └─ → CRITICAL | receipt: 0x7a3b...
 
-Step 3: CircuitBreaker (triggered if CRITICAL)
+Step 3: CircuitBreaker (if CRITICAL)
   └─ pauseContract(0xPROTECTED, CRITICAL, 0x7a3b...)
   └─ tx: 0x9c2d... | ⚡ CONTRACT PAUSED
 ```
 
+| Deviation | Level | Action |
+|---|---|---|
+| <2% | NONE | Normal |
+| 2-5% | LOW | Logged |
+| 5-10% | MEDIUM | Alert |
+| >10% | CRITICAL | Auto-pause |
+
 ---
 
-## Running Locally
+## Smart Contract
 
-### Prerequisites
+`CerberusSentinel.sol` — Solidity 0.8.20
 
-- Node.js >= 18
-- Somnia testnet wallet with STT (claim at [Somnia Faucet](https://testnet.somnia.network))
-- Git
+| Function | Description |
+|---|---|
+| `protect(address)` | Register contract for monitoring |
+| `pauseContract(target, level, receiptId)` | Pause with threat level + receipt |
+| `unpauseContract(address)` | Restore paused contract |
+| `isProtected(address)` | Check protection status |
+| `isPaused(address)` | Check pause status |
+| `getLatestAlerts(count)` | Recent alerts with timestamps + receipts |
 
-### 1. Clone & Install
+```solidity
+struct Alert {
+    uint256 timestamp;
+    address target;
+    ThreatLevel level;   // NONE, LOW, MEDIUM, CRITICAL
+    bytes32 receiptId;   // Somnia LLM receipt
+}
+```
+
+---
+
+## Deployment
+
+Contract on **Somnia Testnet (Chain ID 50312)**.
+
+| Item | Value |
+|---|---|
+| RPC | `https://api.infra.testnet.somnia.network` |
+| Chain ID | 50312 |
+| Sentinel | *(pending STT from faucet)* |
+
+---
+
+## Dashboard
+
+4-tab live dashboard served by the agent at `http://localhost:3001`.
+
+| Tab | Content |
+|---|---|
+| **Overview** | 6 metric cards (sources, iterations, anomalies, criticals, pauses, ETH/USD) + event log |
+| **Pipeline** | 3 agent detail cards with Somnia primitives, pipeline flow bar, event log |
+| **Event Log** | Full log with filters (All, Critical, Medium, OracleGuard, Errors) |
+| **About** | Protocol description, wallet, sentinel, chain, RPC |
+
+Auto-refresh 2s. Color-coded events. Number pulse-on-change. Animated background.
+
+---
+
+## Security Model
+
+- **Pipeline error isolation** — each agent runs independently, single failure does not crash the pipeline
+- **Conservative thresholds** — CRITICAL at >10% deviation prevents false positives
+- **Owner-gated** — only owner can pause/unpause contracts
+- **Receipt audit trail** — every pause embeds a receipt ID on-chain
+
+---
+
+## Quick Start
 
 ```bash
 git clone https://github.com/Gideon145/cerberus.git
 cd cerberus
 npm install
-```
-
-### 2. Configure
-
-```bash
-cp .env.example .env
-```
-
-Edit `.env`:
-
-```env
-SOMNIA_RPC=https://testnet.somnia.network/rpc
-AGENT_PRIVATE_KEY=0x...        # your wallet key
-SENTINEL_ADDRESS=0x...         # after deploy
-PROTECTED_CONTRACTS=0xABC...   # contracts to protect
-```
-
-### 3. Deploy Contract
-
-```bash
+cp .env.example .env   # fill AGENT_PRIVATE_KEY
 npm run compile
-npm run deploy
-# Copy the deployed address to .env → SENTINEL_ADDRESS
+npm run deploy          # → copy address to .env SENTINEL_ADDRESS
+npm run agent           # → open http://localhost:3001
 ```
-
-### 4. Start the Agents
-
-```bash
-npm run agent
-```
-
-### 5. Open Dashboard
-
-**http://localhost:3001** — 3 agent cards + live event log
 
 ---
 
-## Hackathon
+## Somnia Integration
 
-Built for the **Somnia Agentathon** by Encode Club (June 2026).
+| Somnia Primitive | Agent | Usage |
+|---|---|---|
+| **JSON API Request** | OracleGuard | Fetch price data from 3 APIs every 60s |
+| **LLM Inference** | ThreatClassifier | Deterministic AI threat classification |
+| **Verifiable Receipts** | All agents | Every action proven on-chain |
 
-| Detail | Value |
+---
+
+## Project Structure
+
+```
+cerberus/
+├── contracts/
+│   └── CerberusSentinel.sol        # On-chain protection contract
+├── agent/
+│   └── loop.ts                     # 3-agent pipeline
+├── frontend/
+│   └── index.html                  # Dashboard served by agent
+├── scripts/
+│   └── deploy.ts                   # Hardhat deployment
+├── hardhat.config.ts               # Somnia testnet + mainnet config
+├── package.json
+└── .env.example
+```
+
+---
+
+## Demo
+
+**What to show:**
+1. Agent boot — 3 agents initialize, wallet address displayed
+2. Dashboard overview — live ETH price from 3 sources
+3. Pipeline tab — agent detail cards with Somnia primitive badges
+4. Simulated anomaly — ThreatClassifier detects, CircuitBreaker pauses
+5. Event log — filter by Critical to see pause with receipt hash
+
+---
+
+## Submission Details
+
+**Hackathon:** Encode Club × Somnia Agentathon (June 2026)
+
+**Challenge:** Build a novel, high-impact agent-driven application demonstrating agent autonomy, composability, and real-world utility.
+
+**How Cerberus addresses the challenge:**
+- Somnia JSON API Request + LLM Inference as first-class primitives
+- 3-agent autonomous pipeline — zero human intervention
+- Deterministic AI threat classification with verifiable on-chain receipts
+- Real-world utility: oracle manipulation detection + contract circuit breaker
+- Agent-native: agents discover anomalies, invoke each other, act independently
+
+---
+
+## Team
+
+| Role | GitHub |
 |---|---|
-| **Prize Pool** | $5,000 USD |
-| **Track** | Build the most novel and high-impact agent-driven application on Somnia |
-| **Deadline** | June 10, 2026 |
-| **Platform** | Somnia Agentic L1 |
+| Solo Developer | [Gideon145](https://github.com/Gideon145) |
 
-### Judging Criteria
-
-| Criterion | How Cerberus Delivers |
-|---|---|
-| **Functionality** | 60s pipeline, reliable oracle scanning, on-chain contract pausing — tested and stable |
-| **Agent-First Design** | All 3 agents operate autonomously — discover anomalies, invoke each other, act without humans |
-| **Innovation** | First on-chain security sentinel using Somnia's deterministic LLM for threat classification with verifiable receipts |
-| **Autonomous Performance** | Self-healing pipeline, 60s heartbeat, runs indefinitely — zero human intervention |
-
----
-
-## Architecture
-
-```
-                    ┌─────────────────────────────┐
-                    │    Somnia Agentic L1         │
-                    │  (Deterministic LLM + JSON   │
-                    │   API Request Agents)         │
-                    └─────────────┬───────────────┘
-                                  │ receipts
-            ┌─────────────────────┼─────────────────────┐
-            │                     │                     │
-   ┌────────▼────────┐  ┌────────▼────────┐  ┌────────▼────────┐
-   │  OracleGuard     │  │ ThreatClassifier │  │ CircuitBreaker   │
-   │  3 price feeds   │  │ LLM Inference    │  │ Contract pause   │
-   │  anomaly detect  │  │ threat classify  │  │ on-chain tx      │
-   └────────┬────────┘  └────────┬────────┘  └────────┬────────┘
-            │                    │                    │
-            └────────────────────┼────────────────────┘
-                                 │
-                     ┌───────────▼───────────┐
-                     │  CerberusSentinel.sol  │
-                     │  (Somnia Testnet)      │
-                     │  • protect()           │
-                     │  • pauseContract()     │
-                     │  • getLatestAlerts()   │
-                     └───────────────────────┘
-```
-
----
+One contract. Three agents. One pipeline. Built for Somnia Agentathon.
 
 ## License
 
-MIT — see [LICENSE](LICENSE)
+MIT
